@@ -1,0 +1,70 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <!-- RoleId Combo Box -->
+    <mat-form-field>
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="RoleId">
+        <mat-option *ngFor="let role of roles" [value]="role.id">
+          {{ role.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="registerForm.get('RoleId')?.hasError('required')">
+        Role is required
+      </mat-error>
+    </mat-form-field>
+  
+    <!-- UserName Input -->
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="UserName" placeholder="Enter Username">
+      <mat-error *ngIf="registerForm.get('UserName')?.hasError('required')">
+        Username is required
+      </mat-error>
+    </mat-form-field>
+  
+    <!-- First Name Input -->
+    <mat-form-field>
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="FirstName" (input)="updateFullName()" placeholder="Enter First Name">
+      <mat-error *ngIf="registerForm.get('FirstName')?.hasError('required')">
+        First Name is required
+      </mat-error>
+    </mat-form-field>
+  
+    <!-- Last Name Input -->
+    <mat-form-field>
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="LastName" (input)="updateFullName()" placeholder="Enter Last Name">
+      <mat-error *ngIf="registerForm.get('LastName')?.hasError('required')">
+        Last Name is required
+      </mat-error>
+    </mat-form-field>
+  
+    <!-- Full Name (Disabled, auto-generated) -->
+    <mat-form-field>
+      <mat-label>Full Name</mat-label>
+      <input matInput formControlName="FullName">
+    </mat-form-field>
+  
+    <!-- Password Input -->
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="Password" type="password" placeholder="Enter Password">
+      <mat-error *ngIf="registerForm.get('Password')?.hasError('required')">
+        Password is required
+      </mat-error>
+    </mat-form-field>
+  
+    <!-- UserType Combo Box -->
+    <mat-form-field>
+      <mat-label>User Type</mat-label>
+      <mat-select formControlName="UserType">
+        <mat-option *ngFor="let type of userTypes" [value]="type">
+          {{ type }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <!-- Submit Button -->
+    <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Register</button>
+  </form>
+  

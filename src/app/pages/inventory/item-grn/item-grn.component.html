@@ -1,0 +1,69 @@
+<!-- grn-form.component.html -->
+<form [formGroup]="grnForm" (ngSubmit)="submitForm()">
+    <mat-form-field class="margin-field" appearance="fill">
+      <mat-label>Purchase Order</mat-label>
+      <mat-select formControlName="purchaseOrderId" (selectionChange)="onPurchaseOrderChange($event.value)">
+        <mat-option *ngFor="let po of purchaseOrders" [value]="po.id">
+          PO #{{ po.id }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field class="margin-field" appearance="fill">
+      <mat-label>GRN Date</mat-label>
+      <input matInput [matDatepicker]="grnDatePicker" formControlName="grnDate">
+      <mat-datepicker-toggle matSuffix [for]="grnDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #grnDatePicker></mat-datepicker>
+    </mat-form-field>
+  
+    <mat-form-field class="margin-field" appearance="fill">
+      <mat-label>Supplier</mat-label>
+      <mat-select formControlName="supplierId">
+        <mat-option *ngFor="let supplier of suppliers" [value]="supplier.id">
+          {{ supplier.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field class="margin-field" appearance="fill">
+      <mat-label>Received By</mat-label>
+      <input matInput formControlName="receivedBy">
+    </mat-form-field>
+  
+    <mat-form-field class="margin-field" appearance="fill">
+      <mat-label>Warehouse Location</mat-label>
+      <input matInput formControlName="warehouseLocation">
+    </mat-form-field>
+  
+    <mat-form-field class="margin-field" appearance="fill">
+      <mat-label>Comments</mat-label>
+      <textarea matInput formControlName="comments"></textarea>
+    </mat-form-field>
+  
+    <div formArrayName="items">
+      <div *ngFor="let item of itemsArray.controls; let i = index" [formGroupName]="i">
+        <mat-form-field class="margin-field" appearance="fill">
+          <mat-label>Item Name</mat-label>
+          <!-- <input matInput formControlName="ItemName" [value]="items.find(i => i.id === item.get('ItemId')?.value)?.name" readonly> -->
+        </mat-form-field>
+  
+        <mat-form-field class="margin-field" appearance="fill">
+          <mat-label>Unit Price</mat-label>
+          <input matInput formControlName="UnitPrice" type="number" (change)="calculateTotalAmount(i)">
+        </mat-form-field>
+  
+        <mat-form-field class="margin-field" appearance="fill">
+          <mat-label>Quantity Received</mat-label>
+          <input matInput formControlName="QuantityReceived" type="number" (change)="calculateTotalAmount(i)">
+        </mat-form-field>
+  
+        <mat-form-field class="margin-field" appearance="fill">
+          <mat-label>Total Amount</mat-label>
+          <input matInput formControlName="TotalAmount" type="number" readonly>
+        </mat-form-field>
+      </div>
+    </div>
+  
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+  

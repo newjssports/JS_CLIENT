@@ -1,0 +1,313 @@
+<mat-toolbar color="primary">
+  <span>Sportswear Order Design</span>
+</mat-toolbar>
+
+<ng-container >
+  <mat-card class="form-container">
+    <form [formGroup]="form"> 
+
+      <mat-form-field class="margin-field" appearance="fill" >
+        <mat-label>Mockups</mat-label>
+        <mat-select formControlName="mockupId" (selectionChange)="onMockupChange($event.value)">
+          <mat-option *ngFor="let mockup of approvedMockups" [value]="mockup.mockupId">
+            {{ mockup.teamName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="isRushOrder" (change)="isRushOrderRequest($event.checked)">Has Rush Order</mat-checkbox>
+
+      <div>
+        <input type="file" (change)="onFileSelected($event,'')" />
+        <button (click)="onUpload()">Upload Image</button>
+      
+        <div *ngIf="uploadedImagePath">
+          <h3>Uploaded Image</h3>
+          <img [src]="uploadedImagePath" alt="Uploaded Image" style="max-width: 300px;"/>
+        </div>
+      </div>
+
+      <mat-form-field class="margin-field"  appearance="fill">
+        <mat-label>Team Name</mat-label>
+        <input formControlName="teamName" matInput placeholder="Enter your team name">
+      </mat-form-field>  
+      <mat-form-field class="margin-field" appearance="fill">
+        <mat-label>Select Main Category</mat-label>
+        <mat-select formControlName="mainCategoryId">
+          <mat-option *ngFor="let category of mainCategories" [value]="category.mainCategoryId">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>      
+      <mat-form-field class="margin-field" appearance="fill" *ngIf="categoriesByMainId.length > 0">
+        <mat-label>Select Category</mat-label>
+        <mat-select formControlName="categoryId">
+          <mat-option *ngFor="let category of categoriesByMainId" [value]="category.categoryId">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="margin-field" appearance="fill" *ngIf="subCatByCateId.length > 0">
+        <mat-label>Select SubCategory</mat-label>
+        <mat-select formControlName="subCategoryId">
+          <mat-option *ngFor="let subcategory of subCatByCateId" [value]="subcategory.subCategoryId">
+            {{ subcategory.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>      
+      <mat-form-field class="margin-field" appearance="fill" *ngIf="products.length > 0">
+        <mat-label>Select Item</mat-label>
+        <mat-select formControlName="productId">
+          <mat-option *ngFor="let item of products" [value]="item.productId">
+            {{ item.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="margin-field"  appearance="fill">
+        <mat-label>Fabric Type</mat-label>
+        <mat-select formControlName="fabricTypeId">
+          <mat-option *ngFor="let fabric of fabrics" [value]="fabric.fabricTypeId">
+            {{fabric.fabricTypeName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>  
+      <mat-form-field class="margin-field" appearance="fill" *ngIf="selectedProduct?.isNeck === true">
+        <mat-label>Neck Style</mat-label>
+        <mat-select formControlName="neckStyleId">
+          <mat-option *ngFor="let neck of neckStyles" [value]="neck.neckStyleId">
+            {{neck.neckStyleName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>      
+      <!-- <ng-container *ngIf="selectedProduct?.isFrontDesc === true">
+        <h3>Front Side</h3>
+        <mat-form-field class="margin-field"  appearance="fill">
+          <mat-label>Front Side Description</mat-label>
+          <textarea formControlName="frontDesc" matInput placeholder="Enter description"></textarea>
+        </mat-form-field>
+      </ng-container> -->
+      <!-- <ng-container *ngIf="selectedProduct?.isFrontImage === true">
+        <input type="file" (change)="onFileSelected($event,'')" multiple>
+        <div class="image-preview-container">
+          <div class="image-preview" *ngFor="let image of frontImages">
+            <img [src]="image" alt="Front Image">
+            <button mat-icon-button (click)="removeFrontImage(image)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>       -->
+      <!-- <ng-container *ngIf="selectedProduct?.isBackDesc === true">
+        <h3>Back Side</h3>
+        <mat-form-field class="margin-field" appearance="fill">
+          <mat-label>Back Side Description</mat-label>
+          <textarea formControlName="backDesc"  matInput placeholder="Enter description"></textarea>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="selectedProduct?.isBackImage === true">
+        <input type="file" (change)="onFileSelected($event, 'back')" multiple>
+      <div class="image-preview-container">
+        <div class="image-preview" *ngFor="let image of backImages">
+          <img [src]="image" alt="Back Image">
+          <button mat-icon-button (click)="removeBackImage(image)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      </ng-container>   -->
+      <ng-container *ngIf="selectedProduct?.isOnlyDesc === true">
+        <mat-form-field class="margin-field" appearance="fill">
+          <mat-label>Note</mat-label>
+          <input formControlName="additionalDetail" matInput placeholder="Enter any additional customization details">
+        </mat-form-field>
+      </ng-container>
+    <!-- <button mat-raised-button color="primary" (click)="addItemToTable()" [disabled]="form.invalid || !form.get('productId')?.value || !form.get('teamName')?.value">Add Item</button> -->
+<br>
+<br>
+<mat-card>
+  <mat-card-title>Add Team Member</mat-card-title>
+  <form [formGroup]="teamForm">
+    <mat-form-field class="margin-field" appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="Enter name" />
+    </mat-form-field>
+
+    <mat-form-field class="margin-field" appearance="fill">
+      <mat-label>Number</mat-label>
+      <input matInput  type="text" formControlName="number" placeholder="Enter number" />
+    </mat-form-field>
+
+    <mat-form-field class="margin-field" appearance="fill">
+      <mat-label>Size</mat-label>
+      <mat-select formControlName="productSizeId">
+        <mat-option *ngFor="let size of productSizes" [value]="size.productSizeId">
+          {{ size.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="margin-field" appearance="fill">
+      <mat-label>Quantity</mat-label>
+      <input matInput  type="number" formControlName="quantity" placeholder="Enter Quantity" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="addToTeamTable()" type="button" [disabled]="!teamForm.valid">
+      Add
+    </button>
+  </form>
+</mat-card>
+<br>
+<mat-card-title>
+  Upload Team List from Excel 
+  <input type="file" (change)="onFileChange($event)" accept=".xls, .xlsx" />
+</mat-card-title>
+
+
+<mat-card>
+  <mat-card-title>Team List</mat-card-title>
+  <table mat-table [dataSource]="teamList" class="mat-elevation-z8">
+    
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Number Column -->
+    <ng-container matColumnDef="number">
+      <th mat-header-cell *matHeaderCellDef> Number </th>
+      <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+    </ng-container>
+
+    <!-- Size Column -->
+    <ng-container matColumnDef="size">
+      <th mat-header-cell *matHeaderCellDef> Size </th>
+      <td mat-cell *matCellDef="let element"> {{element.size}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="quant">
+      <th mat-header-cell *matHeaderCellDef> Quantity </th>
+      <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+    </ng-container>
+    
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <button mat-icon-button color="warn" (click)="removeFromTeamTable(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedTeamColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedTeamColumns;"></tr>
+  </table>
+</mat-card>
+<br>
+<button mat-raised-button color="primary" (click)="addItemToTable()" [disabled]="(form.invalid || !form.get('productId')?.value || !form.get('teamName')?.value) || teamList.length == 0">Add Item</button>
+
+<br>
+<table mat-table [dataSource]="orderItems" class="mat-elevation-z8">
+  <!-- Product Name Column -->
+  <ng-container matColumnDef="productName">
+    <th mat-header-cell *matHeaderCellDef> Product Name </th>
+    <td mat-cell *matCellDef="let row"> {{ row.productName }} </td>
+  </ng-container>
+
+  <!-- Team Name Column -->
+  <!-- <ng-container matColumnDef="teamName">
+    <th mat-header-cell *matHeaderCellDef> Team Name </th>
+    <td mat-cell *matCellDef="let row"> {{ row.teamName }} </td>
+  </ng-container> -->
+
+  <!-- Fabric Type Column -->
+  <ng-container matColumnDef="fabricType">
+    <th mat-header-cell *matHeaderCellDef> Fabric Type </th>
+    <td mat-cell *matCellDef="let row"> {{ row.fabricType }} </td>
+  </ng-container>
+
+  <!-- Neck Style Column -->
+  <ng-container matColumnDef="neckStyle">
+    <th mat-header-cell *matHeaderCellDef> Neck Style </th>
+    <td mat-cell *matCellDef="let row"> {{ row.neckStyle }} </td>
+  </ng-container>
+
+  <!-- <ng-container matColumnDef="frontDesc">
+    <th mat-header-cell *matHeaderCellDef> Front Description </th>
+    <td mat-cell *matCellDef="let row"> {{ row.frontDesc }} </td>
+  </ng-container>
+  <ng-container matColumnDef="frontImages">
+    <th mat-header-cell *matHeaderCellDef> Front Images </th>
+    <td mat-cell *matCellDef="let row">
+      <div class="image-preview" *ngFor="let image of row.frontImages">
+        <img [src]="image" alt="Front Image" class="table-image">
+      </div>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="backDesc">
+    <th mat-header-cell *matHeaderCellDef> Back Description </th>
+    <td mat-cell *matCellDef="let row"> {{ row.backDesc }} </td>
+  </ng-container>
+  <ng-container matColumnDef="backImages">
+    <th mat-header-cell *matHeaderCellDef> Back Images </th>
+    <td mat-cell *matCellDef="let row">
+      <div class="image-preview" *ngFor="let image of row.backImages">
+        <img [src]="image" alt="Back Image" class="table-image">
+      </div>
+    </td>
+  </ng-container> -->
+  <!-- Additional Detail Column -->
+  <ng-container *ngIf="selectedProduct?.isOnlyDesc"  matColumnDef="additionalDetail" >
+    <th mat-header-cell *matHeaderCellDef> Note</th>
+    <td mat-cell *matCellDef="let row"> {{ row.additionalDetail }} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedTblColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedTblColumns;"></tr>
+</table>
+<br>
+<br>
+<!-- <button mat-raised-button color="accent" (click)="submitOrder()">Submit Order</button> -->
+        <!-- <button mat-raised-button color="primary">Save Design</button> -->
+      <div class="button-container">
+        <ng-container *ngFor="let right of mockupDesignStepsUserRights">
+          <button [disabled]="orderItems.length === 0" *ngIf="right.mockupSteps?.isMockup === true" 
+                  mat-raised-button color="accent" 
+          (click)="submitOrder(right.mockupSteps?.fromMockupDesignStep?.name || '', right.mockupSteps?.toMockupDesignStep?.name || '')">
+          {{right.mockupSteps?.fromMockupDesignStep?.buttonDisplayName}}</button>
+        </ng-container>
+      </div>
+    </form>
+  </mat-card>
+</ng-container>
+
+<!-- <mat-card class="data-grid-container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef> Category </th>
+      <td mat-cell *matCellDef="let element"> {{ element.category }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="subcategory">
+      <th mat-header-cell *matHeaderCellDef> Subcategory </th>
+      <td mat-cell *matCellDef="let element"> {{ element.subcategory }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="item">
+      <th mat-header-cell *matHeaderCellDef> Item </th>
+      <td mat-cell *matCellDef="let element"> {{ element.item }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</mat-card> -->

@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+.mat-toolbar.mat-primary{
+    --mat-toolbar-container-background-color:#faa41e !important;
+    --mat-toolbar-container-text-color:#242021 !important;
+}
+.mat-mdc-raised-button:not(:disabled) {
+    background-color: #faa41e !important;
+    color: #242021 !important;
+}

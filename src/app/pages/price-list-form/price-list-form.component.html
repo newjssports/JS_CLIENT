@@ -1,0 +1,73 @@
+<form [formGroup]="priceListForm" (ngSubmit)="submitForm()">
+  <mat-form-field class="margin-field" appearance="fill">
+    <mat-label>Select Client</mat-label>
+    <mat-select formControlName="client">
+      <mat-option *ngFor="let client of clientList" [value]="client.userId">
+        {{ client.fullName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field> 
+  <mat-form-field class="margin-field" appearance="fill">
+    <mat-label>Select Main Category</mat-label>
+    <mat-select formControlName="maincategory">
+      <mat-option *ngFor="let category of mainCategories" [value]="category.mainCategoryId">
+        {{ category.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>      
+  <mat-form-field class="margin-field" appearance="fill" *ngIf="categoriesByMainId.length > 0">
+    <mat-label>Select Category</mat-label>
+    <mat-select formControlName="category">
+      <mat-option *ngFor="let category of categoriesByMainId" [value]="category.categoryId">
+        {{ category.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="margin-field" appearance="fill" *ngIf="subCatByCateId.length > 0">
+    <mat-label>Select SubCategory</mat-label>
+    <mat-select formControlName="subcategory">
+      <mat-option *ngFor="let subcategory of subCatByCateId" [value]="subcategory.subCategoryId">
+        {{ subcategory.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>      
+  <mat-form-field class="margin-field" appearance="fill" *ngIf="products.length > 0">
+    <mat-label>Select Item</mat-label>
+    <mat-select formControlName="item" multiple>
+      <mat-option *ngFor="let item of products" [value]="item">
+        {{ item.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="margin-field" appearance="fill">
+    <mat-label>Effective From</mat-label>
+    <input matInput [matDatepicker]="picker1" formControlName="effectiveFrom">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field class="margin-field" appearance="fill">
+    <mat-label>End Date</mat-label>
+    <input matInput [matDatepicker]="picker2" formControlName="endDate">
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field class="margin-field" appearance="fill">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status">
+      <mat-option value="active">Active</mat-option>
+      <mat-option value="inactive">Inactive</mat-option>
+      <!-- Add more statuses as needed -->
+    </mat-select>
+  </mat-form-field>
+
+  <div formArrayName="items">
+    <div *ngFor="let item of itemsArray.controls; let i = index" [formGroupName]="i">
+      <app-price-list-item [formGroup]="getFormGroup(item)" (remove)="removeItem(i)"></app-price-list-item>
+    </div>
+  </div>
+
+  <button mat-raised-button color="primary" type="submit">Submit</button>
+</form>

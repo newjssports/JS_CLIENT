@@ -1,0 +1,25 @@
+<div [formGroup]="formGroup" class="price-list-item">
+  <mat-form-field appearance="fill">
+    <mat-label>Item Name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Price</mat-label>
+    <input matInput formControlName="amount">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Rush Price</mat-label>
+    <input matInput formControlName="rushAmount">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Discount</mat-label>
+    <input matInput formControlName="discount">
+  </mat-form-field>
+
+  <button mat-icon-button (click)="removeItem()">
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>

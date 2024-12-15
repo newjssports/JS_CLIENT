@@ -1,0 +1,367 @@
+<div class="form-container">
+    <h2>Main Category Setup</h2>
+    <form [formGroup]="mainCategoryForm">
+      <div class="row">
+        <div class="col-3">
+          <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+        </div>
+      <div class="col-3">
+        <mat-form-field appearance="fill">
+          <mat-label>Code</mat-label>
+          <input matInput formControlName="code">
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field appearance="fill">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description">
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <button [disabled]="!mainCategoryForm.valid" mat-raised-button color="primary" (click)="addMainCategory()" *ngIf="selectedCategoryIndex === null">Save</button>
+        <button mat-raised-button color="accent" (click)="updateMainCategory()" *ngIf="selectedCategoryIndex !== null">Update</button>  
+      </div>
+    </div>
+    </form>
+    <div class="grid">
+      <table mat-table [dataSource]="mainCategories">
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>Main Category </th>
+          <td mat-cell *matCellDef="let category">{{ category.name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let category; let i = index">
+            <button mat-icon-button (click)="editCategory(i)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteCategory(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="['category', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['category', 'actions'];"></tr>
+      </table>
+    </div>
+
+
+
+    <h2>Category Setup</h2>
+    <form [formGroup]="categoryForm">
+      <div class="row">
+        <div class="col-4">
+          <mat-form-field class="margin-field" appearance="fill">
+            <mat-label>Select Main Category</mat-label>
+            <mat-select formControlName="mainCategoryId">
+              <mat-option *ngFor="let category of mainCategories" [value]="category.mainCategoryId">
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> 
+        </div>
+        <div class="col-3">
+          <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <mat-form-field appearance="fill">
+            <mat-label>Code</mat-label>
+            <input matInput formControlName="code">
+          </mat-form-field>
+        </div>
+        
+      </div>
+      <div class="row">
+        <div class="col-9">
+          <mat-form-field appearance="fill">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description">
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <button [disabled]="!categoryForm.valid" mat-raised-button color="primary" (click)="addMainCategory()" *ngIf="selectedCategoryIndex === null">Save</button>
+          <button mat-raised-button color="accent" (click)="updateMainCategory()" *ngIf="selectedCategoryIndex !== null">Update</button>
+        </div>
+      </div>
+      
+    </form>
+    <div class="grid">
+      <table mat-table [dataSource]="categoriesByMainId">
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>Category </th>
+          <td mat-cell *matCellDef="let category">{{ category.name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let category; let i = index">
+            <button mat-icon-button (click)="editCategory(i)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteCategory(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="['category', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['category', 'actions'];"></tr>
+      </table>
+    </div>
+
+    <h2>Sub Category Setup</h2>
+    <form [formGroup]="subCategoryForm">
+      <mat-form-field class="margin-field" appearance="fill">
+        <mat-label>Select Category</mat-label>
+        <mat-select formControlName="categoryId">
+          <mat-option *ngFor="let category of categoriesByMainId" [value]="category.categoryId">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Code</mat-label>
+        <input matInput formControlName="code">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description">
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="addMainCategory()" *ngIf="selectedCategoryIndex === null">Add</button>
+      <button mat-raised-button color="accent" (click)="updateMainCategory()" *ngIf="selectedCategoryIndex !== null">Update</button>
+    </form>
+    <div class="grid">
+      <table mat-table [dataSource]="subCatByCateId">
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>Sub Category </th>
+          <td mat-cell *matCellDef="let category">{{ category.name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let category; let i = index">
+            <button mat-icon-button (click)="editCategory(i)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteCategory(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="['category', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['category', 'actions'];"></tr>
+      </table>
+    </div>
+    <h2>Product Item Setup</h2>
+    <form [formGroup]="productItemForm">
+      <mat-form-field class="margin-field" appearance="fill" >
+        <mat-label>Select Category</mat-label>
+        <mat-select formControlName="categoryId">
+          <mat-option *ngFor="let category of categoriesByMainId" [value]="category.categoryId">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="margin-field" appearance="fill" *ngIf="subCatByCateId.length > 0">
+        <mat-label>Select SubCategory</mat-label>
+        <mat-select formControlName="subCategoryId">
+          <mat-option *ngFor="let subcategory of subCatByCateId" [value]="subcategory.subCategoryId">
+            {{ subcategory.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>   
+      <mat-form-field>
+        <mat-label>Product Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter product name">
+      </mat-form-field>
+    
+      <mat-form-field>
+        <mat-label>Product Code</mat-label>
+        <input matInput formControlName="code" placeholder="Enter product code">
+      </mat-form-field>
+    
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" placeholder="Enter product description"></textarea>
+      </mat-form-field>
+          <!-- Wrapper div for flexbox -->
+  <div class="checkbox-container">
+    <mat-checkbox formControlName="isNeck">Has Neck Style</mat-checkbox>
+    <mat-checkbox formControlName="isFrontDesc">Has Front Description</mat-checkbox>
+    <mat-checkbox formControlName="isFrontImage">Has Front Image</mat-checkbox>
+    <mat-checkbox formControlName="isBackDesc">Has Back Description</mat-checkbox>
+    <mat-checkbox formControlName="isBackImage">Has Back Image</mat-checkbox>
+    <mat-checkbox formControlName="isOnlyDesc">Only Description</mat-checkbox>
+    <mat-checkbox formControlName="isLeftSleeveDesc">Has Left Sleeve Description</mat-checkbox>
+    <mat-checkbox formControlName="isRightSleeveDesc">Has Right Sleeve Description</mat-checkbox>
+    <mat-checkbox formControlName="isLeftSleeveImage">Has Left Sleeve Image</mat-checkbox>
+    <mat-checkbox formControlName="isRightSleeveImage">Has Right Sleeve Image</mat-checkbox>
+  </div>
+
+  <!-- Wrapper for numbered checkboxes -->
+  <div class="checkbox-container">
+    <div *ngFor="let number of numbers" class="checkbox-item">
+      <mat-checkbox [formControlName]="'isAllow' + number">Allow {{ number }}</mat-checkbox>
+    </div>
+  </div>
+      <!-- <mat-form-field>
+        <mat-label>Front Image URL</mat-label>
+        <input matInput formControlName="frontImage" placeholder="Enter front image URL">
+      </mat-form-field>
+    
+      <mat-form-field>
+        <mat-label>Back Image URL</mat-label>
+        <input matInput formControlName="backImage" placeholder="Enter back image URL">
+      </mat-form-field> -->
+      <button [disabled]="!productItemForm.valid" mat-raised-button color="primary" (click)="addItem()">Add</button>
+    </form>
+    <div class="grid">
+      <table mat-table [dataSource]="selectedCategoryIndex !== null && selectedSubCategoryIndex !== null ? categories[selectedCategoryIndex]?.subcategories[selectedSubCategoryIndex]?.items : []">
+        <ng-container matColumnDef="item">
+          <th mat-header-cell *matHeaderCellDef> Item </th>
+          <td mat-cell *matCellDef="let item">{{ item }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let item; let i = index">
+            <button mat-icon-button (click)="deleteItem(selectedCategoryIndex!, selectedSubCategoryIndex!, i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="['item', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['item', 'actions'];"></tr>
+      </table>
+    </div>
+    <br>
+    <br>
+    <h2>Mockup Step Setup</h2>
+    <form [formGroup]="mockupSteps">
+      <div class="row">
+        <div class="col-4">
+          <mat-form-field class="margin-field" appearance="fill" >
+            <mat-label>Select From Mockup Step Name</mat-label>
+            <mat-select formControlName="fromMockupDesignStepId">
+              <mat-option *ngFor="let item of mockupDesignNames" [value]="item.mockupDesignStepId">
+                {{ item.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>   
+        <div class="col-4">
+          <mat-form-field class="margin-field" appearance="fill" >
+            <mat-label>Select To Mockup Step Name</mat-label>
+            <mat-select formControlName="toMockupDesignStepId">
+              <mat-option *ngFor="let item of mockupDesignNames" [value]="item.mockupDesignStepId">
+                {{ item.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> 
+        <div class="col-4">
+          <button [disabled]="!mockupSteps.valid" mat-raised-button color="primary" (click)="createMockupStep()" *ngIf="selectedCategoryIndex === null">Add</button>
+          <button mat-raised-button color="accent" (click)="updateMainCategory()" *ngIf="selectedCategoryIndex !== null">Update</button>
+        </div>
+      </div>
+    </form>
+    <div class="grid">
+      <table mat-table [dataSource]="mockupDesignSteps">
+        <ng-container matColumnDef="From">
+          <th mat-header-cell *matHeaderCellDef>From</th>
+          <td mat-cell *matCellDef="let item">{{ item.fromMockupDesignStep?.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="To">
+          <th mat-header-cell *matHeaderCellDef>To</th>
+          <td mat-cell *matCellDef="let item">{{ item.toMockupDesignStep?.name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let item; let i = index">
+            <button mat-icon-button (click)="editCategory(i)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteCategory(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="['From','To', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['From','To', 'actions'];"></tr>
+      </table>
+    </div>
+
+    <h2>Mockup Design Step Setup</h2>
+    <form [formGroup]="mockupDesigningSteps">
+      <div class="row">
+        <div class="col-4">
+          <mat-form-field class="margin-field" appearance="fill" >
+            <mat-label>Select From Mockup Step Name</mat-label>
+            <mat-select formControlName="fromMockupDesignStepId">
+              <mat-option *ngFor="let item of mockupDesignedNames" [value]="item.mockupDesignStepId">
+                {{ item.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>   
+        <div class="col-4">
+          <mat-form-field class="margin-field" appearance="fill" >
+            <mat-label>Select To Mockup Step Name</mat-label>
+            <mat-select formControlName="toMockupDesignStepId">
+              <mat-option *ngFor="let item of mockupDesignedNames" [value]="item.mockupDesignStepId">
+                {{ item.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> 
+        <div class="col-4">
+          <button [disabled]="!mockupDesigningSteps.valid" mat-raised-button color="primary" (click)="createMockupDesigningStep()" *ngIf="selectedCategoryIndex === null">Add</button>
+          <button mat-raised-button color="accent" (click)="updateMainCategory()" *ngIf="selectedCategoryIndex !== null">Update</button>
+        </div>
+      </div>
+    </form>
+    <div class="grid">
+      <table mat-table [dataSource]="mockupDesignSteps">
+        <ng-container matColumnDef="From">
+          <th mat-header-cell *matHeaderCellDef>From</th>
+          <td mat-cell *matCellDef="let item">{{ item.fromMockupDesignStep?.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="To">
+          <th mat-header-cell *matHeaderCellDef>To</th>
+          <td mat-cell *matCellDef="let item">{{ item.toMockupDesignStep?.name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let item; let i = index">
+            <button mat-icon-button (click)="editCategory(i)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteCategory(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="['From','To', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['From','To', 'actions'];"></tr>
+      </table>
+    </div>
+  </div>
+  

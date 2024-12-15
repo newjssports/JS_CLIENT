@@ -1,0 +1,30 @@
+.form-container {
+    margin: 20px;
+  }
+  
+  .grid {
+    margin-top: 20px;
+  }
+  
+  .mat-form-field {
+    width: 100%;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  mat-form-field, mat-checkbox {
+    margin-bottom: 16px;
+  }
+  .checkbox-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Spacing between the checkboxes */
+  }
+  
+  .checkbox-item {
+    width: calc(20% - 16px); /* Three items per row */
+  }
+  
+  
