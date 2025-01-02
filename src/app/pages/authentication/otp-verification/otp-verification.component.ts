@@ -11,7 +11,15 @@ import { AuthService } from 'src/app/services/AuthService';
 export class OtpVerificationComponent {
   verification: VerifyOTPRequest = {USER_ID : 2,code : ''};
   errorMessage: string = '';
-  constructor(private authService: AuthService, private router: Router) {}
+  mobOTP: string | null;
+  constructor(private authService: AuthService, private router: Router) {
+    this.mobOTP = this.authService.getOTP();
+    // Temprary
+    if(this.mobOTP != null){
+      this.verification.code = this.mobOTP;
+    }
+    
+  }
 
   onSubmitCode(){
     if(this.verification.USER_ID > 0){

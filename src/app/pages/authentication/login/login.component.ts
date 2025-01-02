@@ -30,7 +30,8 @@ export class AppSideLoginComponent {
     this.authService.icLogin(this.icLogin).subscribe(
       (response: any) => {
         // Handle successful login and redirect to the dashboard
-        //this.authService.setToken(response.token);
+        this.authService.setOTP(response.otp);
+        this.authService.setToken(response.token);
         //localStorage.setItem('token', response.token);
         this.router.navigate(['/authentication/verify']);
       },

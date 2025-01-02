@@ -11,6 +11,7 @@ import { jwtDecode } from 'jwt-decode';
   export class AuthService {
     private apiUrl = environment.apiUrl;
     private tokenKey = 'authToken';  // The key used for localStorage
+    private mobOTP = 'mobOTP';  // The key used for localStorage
     constructor(private http: HttpClient) {}
   
     login(loginData: any): Observable<any> {
@@ -37,9 +38,17 @@ import { jwtDecode } from 'jwt-decode';
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
+
+  setOTP(otp: string): void {
+    localStorage.setItem(this.mobOTP, otp);
+  }
   
+  getOTP(): string | null {
+    return localStorage.getItem(this.mobOTP);
+  }
     logout(): void {
       localStorage.removeItem(this.tokenKey);
+      localStorage.removeItem(this.mobOTP);
     }
 
     // Get individual user properties from the decoded token
