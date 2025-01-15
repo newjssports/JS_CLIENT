@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserMockupAction } from 'src/app/core/enums';
 import { CategoryModel } from 'src/app/models/category.model';
 import { FabricTypeModel } from 'src/app/models/fabric-type.model';
@@ -56,7 +57,8 @@ export class MockupDesignComponent {
 
   constructor(private fb: FormBuilder, private productSetupService: ProductSetupService,
    private mockupService: MockupService,
-   private userRightsService: UserRightsService
+   private userRightsService: UserRightsService,
+   private _snackBar: MatSnackBar
   ) {
     this.form = this.fb.group({
       mockupId:[0],
@@ -295,6 +297,10 @@ this.orderItems.push(newItem);
 
         this.mockupService.addNewMockup(this.orderItems).subscribe(response => {
           console.log('Mockup submitted successfully', response);
+          this._snackBar.open('Mockup submitted successfully', 'X', {
+            duration: 3000
+          });
+          this.orderItems = [];
         }, error => {
           console.error('Error submitting mockup', error);
         });
