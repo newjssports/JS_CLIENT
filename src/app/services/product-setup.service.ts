@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { MainCategoryModel } from '../models/MainCategoryModel';
 import { CategoryModel } from '../models/category.model';
 import { SubCategoryModel } from '../models/sub-category.model';
-import { GetProductPriceByUser, ProductModel, ProductSizesPriceListModel, SizePriceIdsRequest } from '../models/product.model';
+import { AddEditProductModel, GetProductPriceByUser, ProductModel, ProductSizesPriceListModel, ProductsListModel, SizePriceIdsRequest } from '../models/product.model';
 import { FabricTypeModel } from '../models/fabric-type.model';
 import { NeckStyleModel } from '../models/neck-style.model';
 import { ProductSizeList } from '../models/product-size-list.model';
@@ -51,5 +51,13 @@ export class ProductSetupService {
   getProductSizesPriceList(model: SizePriceIdsRequest): Observable<ProductSizesPriceListModel[]> {
     return this.http.post<any>(this.apiUrl+"ProductSizeList/getProductSizesPriceList", model);
   }
+
+  addEditProductItem(model: AddEditProductModel): Observable<any> {
+      return this.http.post<any>(this.apiUrl+"Product/addEditProduct", model);
+    }
+
+    getAllProductsList(): Observable<ProductsListModel[]> {
+      return this.http.get<ProductsListModel[]>(this.apiUrl+"Product/getAllProducts");
+    }
 
 }

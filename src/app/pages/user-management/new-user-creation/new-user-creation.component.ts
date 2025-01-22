@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { RegisterModel } from 'src/app/models/new-user.model';
 import { UserService } from 'src/app/services/user.service';
 
@@ -17,7 +18,8 @@ export class NewUserCreationComponent implements OnInit {
   ];
   userTypes = ['CLIENT', 'HOST'];
 
-  constructor(private fb: FormBuilder,private userService: UserService) {}
+  constructor(private fb: FormBuilder,private userService: UserService,
+     private _snackBar: MatSnackBar) {}
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       RoleId: ['', Validators.required],
@@ -57,7 +59,10 @@ export class NewUserCreationComponent implements OnInit {
     const registerData: RegisterModel = this.registerForm.getRawValue();
     this.userService.registerUser(registerData).subscribe(
       response => {
-        console.log('User registered successfully', response);
+        //console.log('User registered successfully', response);
+        this._snackBar.open('User registered successfully', 'X', {
+          duration: 3000
+        });
         // Handle successful registration
       },
       error => {

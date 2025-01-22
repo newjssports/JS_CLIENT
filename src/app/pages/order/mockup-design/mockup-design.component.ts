@@ -296,13 +296,15 @@ this.orderItems.push(newItem);
         console.log('toActionName :', toActionName);
 
         this.mockupService.addNewMockup(this.orderItems).subscribe(response => {
-          console.log('Mockup submitted successfully', response);
           this._snackBar.open('Mockup submitted successfully', 'X', {
             duration: 3000
           });
           this.orderItems = [];
         }, error => {
-          console.error('Error submitting mockup', error);
+          this._snackBar.open('Error submitting mockup', 'X', {
+            duration: 3000
+          });
+          //console.error('Error submitting mockup', error);
         });
       }else if(fromActionName === UserMockupAction.ADMIN && toActionName === UserMockupAction.DESIGNING_DEPT){
         console.log('fromActionName :', fromActionName);
