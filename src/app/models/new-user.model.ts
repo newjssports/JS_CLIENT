@@ -8,5 +8,6 @@ export class RegisterModel {
     UserType?: string;
     IcNumber: string;
     Email: string;
+    Mobile:string = "123";
   }
   

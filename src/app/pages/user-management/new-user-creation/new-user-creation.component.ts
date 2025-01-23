@@ -32,6 +32,7 @@ export class NewUserCreationComponent implements OnInit {
       UserType: ['', Validators.required],
       Email: ['', Validators.required],
       IcNumber: ['', Validators.required],
+      Mobile: ['112233'],
     });
 
     // Listen for changes in FirstName and LastName
