@@ -12,6 +12,13 @@
       </mat-error>
     </mat-form-field>
   
+    <mat-form-field>
+      <mat-label>IC Number</mat-label>
+      <input matInput formControlName="IcNumber" placeholder="Enter User IC Number">
+      <mat-error *ngIf="registerForm.get('IcNumber')?.hasError('required')">
+        User IC is required
+      </mat-error>
+    </mat-form-field>
     <!-- UserName Input -->
     <mat-form-field>
       <mat-label>Username</mat-label>
@@ -43,6 +50,14 @@
     <mat-form-field>
       <mat-label>Full Name</mat-label>
       <input matInput formControlName="FullName">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="Email" placeholder="Enter Email">
+      <mat-error *ngIf="registerForm.get('Email')?.hasError('required')">
+        Email is required
+      </mat-error>
     </mat-form-field>
   
     <!-- Password Input -->

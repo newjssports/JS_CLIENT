@@ -6,5 +6,7 @@ export class RegisterModel {
     FullName?: string;
     Password!: string;
     UserType?: string;
+    IcNumber: string;
+    Email: string;
   }
   

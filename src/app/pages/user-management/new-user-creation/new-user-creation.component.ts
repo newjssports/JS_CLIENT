@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { delay, map, Observable, of } from 'rxjs';
 import { RegisterModel } from 'src/app/models/new-user.model';
 import { UserService } from 'src/app/services/user.service';
 
@@ -27,8 +28,10 @@ export class NewUserCreationComponent implements OnInit {
       FirstName: ['', Validators.required],
       LastName: ['', Validators.required],
       FullName: [{ value: '', disabled: true }],
-      Password: ['', Validators.required, Validators.minLength(6)],
-      UserType: ['', Validators.required]
+      Password: ['',[Validators.required, Validators.minLength(6)],[this.asyncPasswordStrengthValidator.bind(this)]],
+      UserType: ['', Validators.required],
+      Email: ['', Validators.required],
+      IcNumber: ['', Validators.required],
     });
 
     // Listen for changes in FirstName and LastName
@@ -60,7 +63,7 @@ export class NewUserCreationComponent implements OnInit {
     this.userService.registerUser(registerData).subscribe(
       response => {
         //console.log('User registered successfully', response);
-        this._snackBar.open('User registered successfully', 'X', {
+        this._snackBar.open(response, 'X', {
           duration: 3000
         });
         // Handle successful registration
@@ -71,5 +74,23 @@ export class NewUserCreationComponent implements OnInit {
       }
     );
   }
+}
+
+asyncPasswordStrengthValidator(control: AbstractControl): Observable<ValidationErrors | null> {
+  // Simulate an async check for password strength (e.g., API call)
+  return of(control.value).pipe(
+    delay(1000), // Simulate async delay
+    map(value => {
+      const hasNumber = /\d/.test(value);
+      const hasUppercase = /[A-Z]/.test(value);
+      const hasLowercase = /[a-z]/.test(value);
+
+      if (hasNumber && hasUppercase && hasLowercase) {
+        return null; // Valid password
+      } else {
+        return { weakPassword: true }; // Invalid password
+      }
+    })
+  );
 }
 }
