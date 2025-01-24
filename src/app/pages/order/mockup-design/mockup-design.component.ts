@@ -35,6 +35,10 @@ export class MockupDesignComponent {
   items: string[] = [];
   frontImages: string[] = [];
   backImages: string[] = [];
+
+  leftSleeveImages: string[] = [];
+  rightSleeveImages: string[] = [];
+
   displayedColumns: string[] = ['name', 'category', 'subcategory', 'item'];
   dataSource = [
     { name: 'Sample Item 1', category: 'Men\'s Sportswear', subcategory: 'Tops', item: 'T-Shirt' },
@@ -73,12 +77,33 @@ export class MockupDesignComponent {
       fabricTypeId: [0],
       fabricType: [''],
       neckStyleId: [0],
+      shortPocketsId:[0],
+      pantPocketsId:[0],
+      wrestlingId:[0],
       neckStyle: [''],
       frontDesc: [''],
       backDesc: [''],
+      rightSleeve:[''],
+      leftSleeve:[''],
       additionalDetail: [''],
       frontImages: this.fb.array([]),
-      backImages: this.fb.array([])
+      backImages: this.fb.array([]),
+      rightSleeveImages: this.fb.array([]),
+      leftSleeveImages: this.fb.array([]),
+
+      isAllow1: [''], // Shoulder Panel Desc with Image
+      isAllow2: [''], // Bag Strap  Desc with Image
+      isAllow3: [''], // Inside Hood  Desc with Image
+      isAllow4: [''], // Outside Hood  Desc with Image
+      isAllow5: [''], // Back Midle Loop  Desc with Image
+      isAllow6: [''], // Bag Front  Desc with Image
+      isAllow7: [''], // Add 2D Mockup
+      isAllow8: [''], // Add Size Spacs
+      isAllow9: [''], // Add 3D Mockup
+      isAllow10: [''], // Size Image
+      isAllow11: [''], // Shorts Pocket
+      isAllow12: [''], // Pant Pocket
+      isAllow13: [''], // Wrestling Singlet Style
     
     });
   }
@@ -221,7 +246,7 @@ const newItem: MockupModel = {
   rightSleeveDesc: formValue.rightSleeveDesc || '', // Optional if applicable
   additionalDetail: formValue.additionalDetail,
   frontImages: [...this.frontImages],
-  backImages: [...this.backImages]
+  backImages: [...this.backImages],
 };
 
 // Add the new item to the orderItems array
@@ -314,10 +339,7 @@ this.orderItems.push(newItem);
       }else if(fromActionName === UserMockupAction.DESIGNING_DEPT && toActionName === UserMockupAction.DESIGNER){
         console.log('fromActionName :', fromActionName);
         console.log('toActionName :', toActionName);
-
-
       }
-      
     }
   }
 
