@@ -26,5 +26,27 @@
   .checkbox-item {
     width: calc(20% - 16px); /* Three items per row */
   }
+
+
+  .image-preview-container {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .image-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .preview-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
   
   

@@ -37,6 +37,14 @@ export class SetupsComponent implements OnInit {
 
   mockupDesignSteps: MockupDesignStepsModel[] = [];
   numbers: number[] = [];
+
+  selectedFile_2D: File | null = null;
+  selectedFile_3D: File | null = null;
+  selectedFile_Sizes: File | null = null;
+  previewImages: { [key: string]: string | ArrayBuffer | null } = {};
+  previewImages2: { [key: string]: string | ArrayBuffer | null } = {};
+  previewImages3: { [key: string]: string | ArrayBuffer | null } = {};
+
   constructor(private fb: FormBuilder, private productSetupService: ProductSetupService
     ,private mockupService : MockupService,
        private _snackBar: MatSnackBar
@@ -81,17 +89,12 @@ export class SetupsComponent implements OnInit {
       description: [''],
       isNeck: [false],
       isFrontDesc: [false],
-      //isFrontImage: [false],
       isBackDesc: [false],
-      //isBackImage: [false],
       isOnlyDesc: [false],
       isLeftSleeveDesc: [false],
       isRightSleeveDesc: [false],
-      //isLeftSleeveImage: [false],
-      //isRightSleeveImage: [false],
       frontImage: [''], // Item Image
       backImage: [''], // item Image
-
       isAllow1: [false], // Shoulder Panel Desc with Image
       isAllow2: [false], // Bag Strap  Desc with Image
       isAllow3: [false], // Inside Hood  Desc with Image
@@ -106,60 +109,12 @@ export class SetupsComponent implements OnInit {
       isAllow12: [false], // Pant Pocket
       isAllow13: [false], // Wrestling Singlet Style
 
-      // isAllow_14: [false],
-      // isAllow_15: [false],
-      // isAllow_16: [false],
-      // isAllow_17: [false],
-      // isAllow_18: [false],
-      // isAllow_19: [false],
-      // isAllow_20: [false],
-      // isAllow_21: [false],
-      // isAllow_22: [false],
-      // isAllow_23: [false],
-      // isAllow_24: [false],
-      // isAllow_25: [false],
-      // isAllow_26: [false],
-      // isAllow_27: [false],
-      // isAllow_28: [false],
-      // isAllow_29: [false],
-      // isAllow_30: [false],
-      // isAllow_31: [false],
-      // isAllow_32: [false],
-      // isAllow_33: [false],
-      // isAllow_34: [false],
-      // isAllow_35: [false],
-      // isAllow_36: [false],
-      // isAllow_37: [false],
-      // isAllow_38: [false],
-      // isAllow_39: [false],
-      // isAllow_40: [false],
-      // isAllow_41: [false],
-      // isAllow_42: [false],
-      // isAllow_43: [false],
-      // isAllow_44: [false],
-      // isAllow_45: [false],
-      // isAllow_46: [false],
-      // isAllow_47: [false],
-      // isAllow_48: [false],
-      // isAllow_49: [false],
-      // isAllow_50: [false],
-      // isAllow_51: [false],
-      // isAllow_52: [false],
-      // isAllow_53: [false],
-      // isAllow_54: [false],
-      // isAllow_55: [false],
-      // isAllow_56: [false],
-      // isAllow_57: [false],
-      // isAllow_58: [false],
-      // isAllow_59: [false],
-      // isAllow_60: [false],
-      // isAllow_61: [false],
-      // isAllow_62: [false],
-      // isAllow_63: [false],
-      // isAllow_64: [false],
-      // isAllow_65: [false],
-
-
+      add2DMockup: [''], 
+      add3DMockup: [''], 
+      addSizeSpecs: [''], 
+      add2DMockupImage: [null], // File input field
+      add3DMockupImage: [null], // File input field
+      addSizeSpecsImage: [null], // File input field
     });
 
     
@@ -304,27 +259,68 @@ export class SetupsComponent implements OnInit {
     this.subCategoryForm.reset();
   }
 
+  // addItem(): void {
+  //   if (this.productItemForm.valid) {
+  //       const addProduct: AddEditProductModel = this.productItemForm.getRawValue();
+  //       this.productSetupService.addEditProductItem(addProduct).subscribe(
+  //         response => {
+  //           //console.log('Product Added successfully', response);
+  //           this._snackBar.open('Product Added successfully', 'X', {
+  //             duration: 3000
+  //           });
+  //           // Handle successful registration
+  //         },
+  //         error => {
+  //           //console.error('Error add product', error);
+  //           this._snackBar.open('Error product not added!', 'X', {
+  //             duration: 3000
+  //           });
+  //           // Handle error
+  //         }
+  //       );
+  //     }
+  // }
+
   addItem(): void {
     if (this.productItemForm.valid) {
-        const addProduct: AddEditProductModel = this.productItemForm.getRawValue();
-        this.productSetupService.addEditProductItem(addProduct).subscribe(
-          response => {
-            //console.log('Product Added successfully', response);
-            this._snackBar.open('Product Added successfully', 'X', {
-              duration: 3000
-            });
-            // Handle successful registration
-          },
-          error => {
-            //console.error('Error add product', error);
-            this._snackBar.open('Error product not added!', 'X', {
-              duration: 3000
-            });
-            // Handle error
+      const formData = new FormData();
+  
+      // Append each form control to the FormData object
+      Object.keys(this.productItemForm.controls).forEach((key) => {
+        const controlValue = this.productItemForm.get(key)?.value;
+  
+        if (key === 'add2DMockupImage' || key === 'add3DMockupImage' || key === 'addSizeSpecsImage') {
+          // Check if the control value is a File object
+          if (controlValue instanceof File) {
+            formData.append(key, controlValue, controlValue.name);
           }
-        );
-      }
+        } else {
+          formData.append(key, controlValue !== null ? controlValue.toString() : '');
+        }
+      });
+  
+      // Debugging output
+      formData.forEach((value, key) => {
+        console.log(`Key: ${key}, Value:`, value);
+      });
+  
+      // Prepare the model for API submission
+      const addProduct: AddEditProductModel = this.productItemForm.getRawValue();
+      this.productSetupService.addEditProductItem(formData).subscribe(
+        (response) => {
+          this._snackBar.open('Product Added successfully', 'X', {
+            duration: 3000,
+          });
+        },
+        (error) => {
+          this._snackBar.open('Error: Product not added!', 'X', {
+            duration: 3000,
+          });
+        }
+      );
+    }
   }
+  
 
   deleteItem(catIndex: number, subIndex: number, itemIndex: number): void {
     this.categories[catIndex].subcategories[subIndex].items.splice(itemIndex, 1);
@@ -334,5 +330,87 @@ export class SetupsComponent implements OnInit {
     this.productSetupService.getAllProductsList().subscribe(products => {
       this.productList = products;
     });
+  }
+
+  onFileChange(event: Event, controlName: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input?.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      if(controlName === "add2DMockupImage"){
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          const result = e.target?.result;
+          if (result) {
+            this.previewImages[controlName] = result;
+          }
+        };
+        if (file) {
+          this.productItemForm.patchValue({ [controlName]: file });
+        }
+        this.productItemForm.controls['isAllow7'].setValue(true);
+      }  
+  
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
+  }
+  onFileChange2(event: Event, controlName: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input?.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+   
+      if(controlName === "add3DMockupImage"){
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          const result = e.target?.result;
+          if (result) {
+            this.previewImages2[controlName] = result;
+          }
+        };
+        if (file) {
+          this.productItemForm.patchValue({ [controlName]: file });
+        }
+        this.productItemForm.controls['isAllow9'].setValue(true);
+      }    
+  
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
+  }
+
+  onFileChange3(event: Event, controlName: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input?.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      if(controlName === "addSizeSpecsImage"){
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          const result = e.target?.result;
+          if (result) {
+            this.previewImages3[controlName] = result;
+          }
+        };
+        if (file) {
+          this.productItemForm.patchValue({ [controlName]: file });
+        }
+        this.productItemForm.controls['isAllow8'].setValue(true);
+      }
+     
+  
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
+  }
+
+
+  removeImage(controlName: string): void {
+   
+    if(controlName === "add2DMockupImage"){
+      this.previewImages[controlName] = null;
+      this.productItemForm.controls['isAllow7'].setValue(false);
+    }if(controlName === "add3DMockupImage"){
+      this.previewImages2[controlName] = null;
+      this.productItemForm.controls['isAllow9'].setValue(false);
+    }if(controlName === "addSizeSpecsImage"){
+      this.previewImages3[controlName] = null;
+      this.productItemForm.controls['isAllow8'].setValue(false);
+    }
   }
 }

@@ -93,6 +93,24 @@
             </mat-option>
           </mat-select>
         </mat-form-field>   
+
+        <div class="image-preview-container" *ngIf="selectedProduct?.isAllow7 === true">
+          <div class="image-preview">
+            <img [src]="selectedProduct?.add2DMockup" alt="2D Mockup Preview" class="preview-image" />
+          </div>
+        </div>
+
+        <div class="image-preview-container" *ngIf="selectedProduct?.isAllow9 === true">
+          <div class="image-preview">
+            <img [src]="selectedProduct?.add3DMockup" alt="3D Mockup Preview" class="preview-image" />
+          </div>
+        </div>
+
+        <div class="image-preview-container" *ngIf="selectedProduct?.isAllow8 === true">
+          <div class="image-preview">
+            <img [src]="selectedProduct?.addSizeSpecs" alt="Size Specs Preview" class="preview-image" />
+          </div>
+        </div>
         
         <ng-container *ngIf="selectedProduct?.isFrontDesc === true">
           <h3>Front Side</h3>

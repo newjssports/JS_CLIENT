@@ -370,6 +370,8 @@ this.orderItems.push(newItem);
       }
     });
   }
+
+  
   
 }
 

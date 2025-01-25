@@ -52,7 +52,7 @@ export class ProductSetupService {
     return this.http.post<any>(this.apiUrl+"ProductSizeList/getProductSizesPriceList", model);
   }
 
-  addEditProductItem(model: AddEditProductModel): Observable<any> {
+  addEditProductItem(model: any): Observable<any> {
       return this.http.post<any>(this.apiUrl+"Product/addEditProduct", model);
     }
 

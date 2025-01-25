@@ -197,6 +197,67 @@
         <mat-label>Description</mat-label>
         <textarea matInput formControlName="description" placeholder="Enter product description"></textarea>
       </mat-form-field>
+
+      <ng-container>
+        <h3 for="add2DMockupImage">Add 2D Mockup</h3>
+        <button mat-raised-button color="primary" (click)="fileInput.click()">Choose 2D Mockup</button>
+        <input
+          type="file"
+          #fileInput
+          (change)="onFileChange($event, 'add2DMockupImage')"
+          accept="image/*"
+          style="display: none"
+        />
+        <div class="image-preview-container" *ngIf="previewImages['add2DMockupImage']">
+          <div class="image-preview">
+            <img [src]="previewImages['add2DMockupImage']" alt="2D Mockup Preview" class="preview-image" />
+            <button mat-icon-button (click)="removeImage('add2DMockupImage')">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container>
+        <h3 for="add3DMockupImage">Add 3D Mockup</h3>
+        <button mat-raised-button color="primary" (click)="fileInput2.click()">Choose 3D Mockup</button>
+        <input
+          type="file"
+          #fileInput2
+          (change)="onFileChange2($event, 'add3DMockupImage')"
+          accept="image/*"
+          style="display: none"
+        />
+        <div class="image-preview-container" *ngIf="previewImages2['add3DMockupImage']">
+          <div class="image-preview">
+            <img [src]="previewImages2['add3DMockupImage']" alt="3D Mockup Preview" class="preview-image" />
+            <button mat-icon-button (click)="removeImage('add3DMockupImage')">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container>
+        <h3 for="addSizeSpecsImage">Add Size Specs</h3>
+        <button mat-raised-button color="primary" (click)="fileInput3.click()">Choose Size Specs</button>
+        <input
+          type="file"
+          #fileInput3
+          (change)="onFileChange3($event, 'addSizeSpecsImage')"
+          accept="image/*"
+          style="display: none"
+        />
+        <div class="image-preview-container" *ngIf="previewImages3['addSizeSpecsImage']">
+          <div class="image-preview">
+            <img [src]="previewImages3['addSizeSpecsImage']" alt="Sizes Specs Preview" class="preview-image" />
+            <button mat-icon-button (click)="removeImage('addSizeSpecsImage')">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+      
           <!-- Wrapper div for flexbox -->
   <div class="checkbox-container">
     <mat-checkbox formControlName="isNeck">Neck Style</mat-checkbox>
@@ -222,6 +283,8 @@
     <mat-checkbox formControlName="isAllow11">Shorts Pocket</mat-checkbox>
     <mat-checkbox formControlName="isAllow12">Pant Pockets</mat-checkbox>
     <mat-checkbox formControlName="isAllow13">Wrestling Singlet Style</mat-checkbox>
+
+   
     <!-- <mat-checkbox formControlName="isAllow_14">IS_ALLOW_14</mat-checkbox>
     <mat-checkbox formControlName="isAllow_15">IS_ALLOW_15</mat-checkbox>
     <mat-checkbox formControlName="isAllow_16">IS_ALLOW_16</mat-checkbox>
