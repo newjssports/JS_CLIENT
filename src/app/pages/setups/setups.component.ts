@@ -109,8 +109,8 @@ export class SetupsComponent implements OnInit {
       isAllow12: [false], // Pant Pocket
       isAllow13: [false], // Wrestling Singlet Style
 
-      add2DMockup: [''], 
-      add3DMockup: [''], 
+      add2dMockup: [''], 
+      add3dMockup: [''], 
       addSizeSpecs: [''], 
       add2DMockupImage: [null], // File input field
       add3DMockupImage: [null], // File input field

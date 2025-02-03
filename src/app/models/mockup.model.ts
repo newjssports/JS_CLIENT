@@ -90,4 +90,35 @@ export class MockupModel {
     productSizePrice: number;
     totalAmount: number;
   }
+
+  export class WrestlingSingletModel {
+    wrestlingSingletId: number;
+    wrestlingSingletName?: string;
+    wrestlingSingletDesc?: string;
+  
+    constructor(init?: Partial<WrestlingSingletModel>) {
+      Object.assign(this, init);
+    }
+  }
+  
+  export class ShortPocketModel {
+    shortPocketId: number;
+    shortPocketName?: string;
+    shortPocketDesc?: string;
+  
+    constructor(init?: Partial<ShortPocketModel>) {
+      Object.assign(this, init);
+    }
+  }
+  
+  export class PantPocketModel {
+    pantPocketId: number;
+    pantPocketName?: string;
+    pantPocketDesc?: string;
+  
+    constructor(init?: Partial<PantPocketModel>) {
+      Object.assign(this, init);
+    }
+  }
+  
   

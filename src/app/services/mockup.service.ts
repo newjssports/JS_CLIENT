@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environment/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { MockupModel, MockupsListModel } from '../models/mockup.model';
+import { MockupModel, MockupsListModel, PantPocketModel, ShortPocketModel, WrestlingSingletModel } from '../models/mockup.model';
 import { AuthService } from './AuthService';
 import { ApprovedMockupModel } from '../models/approved-mockups.model';
 import { MockupDesignStepsNameModel } from '../models/mockup-design-steps-name.model';
@@ -71,4 +71,16 @@ export class MockupService {
     return this.http.get<MockupDesignStepsModel[]>(this.apiUrl+"UserMockupDesignRights/getMockupDesignSteps");
   }
 
+
+  getShortPockets(): Observable<ShortPocketModel[]> {
+    return this.http.get<ShortPocketModel[]>(this.apiUrl+"ShortPocket/getShortPockets");
+  }
+
+  getPantPocketss(): Observable<PantPocketModel[]> {
+    return this.http.get<PantPocketModel[]>(this.apiUrl+"PantPocket/getPantPockets");
+  }
+
+  getWrestlings(): Observable<WrestlingSingletModel[]> {
+    return this.http.get<WrestlingSingletModel[]>(this.apiUrl+"WrestlingSiglet/getWrestling");
+  }
 }

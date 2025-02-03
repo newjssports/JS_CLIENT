@@ -41,8 +41,8 @@ export interface ProductModel {
   isAllow11?: boolean;
   isAllow12?: boolean;
   isAllow13?: boolean;
-  add2DMockup?:string;
-  add3DMockup?:string;
+  add2dMockup?:string;
+  add3dMockup?:string;
   addSizeSpecs?:string;
 }
 
@@ -189,8 +189,8 @@ export class AddEditProductModel {
   isAllow12?: boolean | null; // Pant Pocket
   isAllow13?: boolean | null; // Wrestling Singlet Style
 
-  add2DMockup?: string | null;
-  add3DMockup?: string | null;
+  add2dMockup?: string | null;
+  add3dMockup?: string | null;
   addSizeSpecs?: string | null;
 
   add2DMockupImage?: File | null;

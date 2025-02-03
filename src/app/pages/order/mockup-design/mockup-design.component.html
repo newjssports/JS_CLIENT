@@ -70,8 +70,8 @@
         <mat-form-field class="margin-field" appearance="fill" *ngIf="selectedProduct?.isAllow11 === true">
           <mat-label>Shorts Pockets</mat-label>
           <mat-select formControlName="isAllow11">
-            <mat-option *ngFor="let neck of neckStyles" [value]="neck.neckStyleId">
-              {{neck.neckStyleName}}
+            <mat-option *ngFor="let neck of shortPocketModel" [value]="neck.shortPocketId">
+              {{neck.shortPocketName}}
             </mat-option>
           </mat-select>
         </mat-form-field>   
@@ -79,8 +79,8 @@
         <mat-form-field class="margin-field" appearance="fill" *ngIf="selectedProduct?.isAllow12 === true">
           <mat-label>Pant Pockets</mat-label>
           <mat-select formControlName="isAllow12">
-            <mat-option *ngFor="let neck of neckStyles" [value]="neck.neckStyleId">
-              {{neck.neckStyleName}}
+            <mat-option *ngFor="let neck of pantPocketModel" [value]="neck.pantPocketId">
+              {{neck.pantPocketName}}
             </mat-option>
           </mat-select>
         </mat-form-field>   
@@ -88,21 +88,21 @@
         <mat-form-field class="margin-field" appearance="fill" *ngIf="selectedProduct?.isAllow13 === true">
           <mat-label>Wrestling Singlet Style</mat-label>
           <mat-select formControlName="isAllow13">
-            <mat-option *ngFor="let neck of neckStyles" [value]="neck.neckStyleId">
-              {{neck.neckStyleName}}
+            <mat-option *ngFor="let neck of wrestlingSingletModel" [value]="neck.wrestlingSingletId">
+              {{neck.wrestlingSingletName}}
             </mat-option>
           </mat-select>
         </mat-form-field>   
 
         <div class="image-preview-container" *ngIf="selectedProduct?.isAllow7 === true">
           <div class="image-preview">
-            <img [src]="selectedProduct?.add2DMockup" alt="2D Mockup Preview" class="preview-image" />
+            <img [src]="selectedProduct?.add2dMockup" alt="2D Mockup Preview" class="preview-image" />
           </div>
         </div>
 
         <div class="image-preview-container" *ngIf="selectedProduct?.isAllow9 === true">
           <div class="image-preview">
-            <img [src]="selectedProduct?.add3DMockup" alt="3D Mockup Preview" class="preview-image" />
+            <img [src]="selectedProduct?.add3dMockup" alt="3D Mockup Preview" class="preview-image" />
           </div>
         </div>
 

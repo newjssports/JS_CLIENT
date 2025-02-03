@@ -6,7 +6,7 @@ import { CategoryModel } from 'src/app/models/category.model';
 import { FabricTypeModel } from 'src/app/models/fabric-type.model';
 import { MainCategoryModel } from 'src/app/models/MainCategoryModel';
 import { MockupDesignStepsUserRightsModel } from 'src/app/models/mockup-design-steps-user-rights.model';
-import { MockupModel, MockupsListModel } from 'src/app/models/mockup.model';
+import { MockupModel, MockupsListModel, PantPocketModel, ShortPocketModel, WrestlingSingletModel } from 'src/app/models/mockup.model';
 import { NeckStyleModel } from 'src/app/models/neck-style.model';
 import { ProductModel } from 'src/app/models/product.model';
 import { SubCategoryModel } from 'src/app/models/sub-category.model';
@@ -57,7 +57,9 @@ export class MockupDesignComponent {
   mockupsListMoveToDesignDept: MockupsListModel[] = [];
   mockupsListAssignToDesigner: MockupsListModel[] = [];
 
-
+  shortPocketModel:  ShortPocketModel[] = [];
+  pantPocketModel: PantPocketModel[] = [];
+  wrestlingSingletModel: WrestlingSingletModel[] = [];
 
   constructor(private fb: FormBuilder, private productSetupService: ProductSetupService,
    private mockupService: MockupService,
@@ -115,6 +117,9 @@ export class MockupDesignComponent {
     this.updateDisplayedColumns();
     this.getFabricTypes();
     this.getNeckStyles();
+    this.getShortPockets();
+    this.getPantPocketss();
+    this.getWrestlings();
     this.form.get('categoryId')?.valueChanges.subscribe(categoryId => {
       this.getSubCategoryByCateId(categoryId);
       this.form.get('subCategoryId')?.setValue('');
@@ -372,6 +377,32 @@ this.orderItems.push(newItem);
   }
 
   
+  getShortPockets(){
+    this.shortPocketModel = [];
+    this.mockupService.getShortPockets().subscribe(res => {
+      if(res){
+        this.shortPocketModel = res;
+      }
+    });
+  }
+
+  getPantPocketss(){
+    this.pantPocketModel = [];
+    this.mockupService.getPantPocketss().subscribe(res => {
+      if(res){
+        this.pantPocketModel = res;
+      }
+    });
+  }
+
+  getWrestlings(){
+    this.wrestlingSingletModel = [];
+    this.mockupService.getWrestlings().subscribe(res => {
+      if(res){
+        this.wrestlingSingletModel = res;
+      }
+    });
+  }
   
 }
 
