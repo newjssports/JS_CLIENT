@@ -23,6 +23,8 @@ import { SetupsComponent } from '../setups.component';
 import { PriceListFormComponent } from '../../price-list-form/price-list-form.component';
 import { PriceListItemComponent } from '../../price-list-item/price-list-item.component';
 import { ProductSizeListComponent } from '../product-size-list/product-size-list.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { AddEditFabricComponent } from './components/add-edit-fabric/add-edit-fabric.component';
 
 @NgModule({
   imports: [
@@ -45,6 +47,7 @@ import { ProductSizeListComponent } from '../product-size-list/product-size-list
     MatPaginatorModule,
     MatSortModule,
     MatNativeDateModule,
+    MatExpansionModule,
     RouterModule.forChild(SetupRoutingModule),
     TablerIconsModule.pick(TablerIcons),
   ],
@@ -52,7 +55,8 @@ import { ProductSizeListComponent } from '../product-size-list/product-size-list
     SetupsComponent,
     PriceListFormComponent,
     PriceListItemComponent,
-    ProductSizeListComponent
+    ProductSizeListComponent,
+    AddEditFabricComponent
   ],
   exports: [TablerIconsModule],
 })

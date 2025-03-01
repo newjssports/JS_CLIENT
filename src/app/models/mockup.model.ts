@@ -121,4 +121,77 @@ export class MockupModel {
     }
   }
   
+
+
+  export interface AddNewMockupForm {
+    mockupId: number;
+    teamName?: string;
+    mainCategoryId?: number;
+    categoryId?: number;
+    subCategoryId?: number;
+    productId?: number;
+    fabricTypeId?: number;
+    neckStyleId?: number;
+    frontDescription?: string;
+    frontDescriptionImage?: File;
+    backDescription?: string;
+    backDescriptionImage?: File;
+    leftSleeveDesc?: string;
+    leftSleeveDescImage?: File;
+    rightSleeveDesc?: string;
+    rightSleeveDescImage?: File;
+    active?: boolean;
+    status?: string;
+    deleted?: boolean;
+    createdBy?: string;
+    createdDate?: Date;
+    modifiedBy?: string;
+    modifiedDate?: Date;
+    userId?: number;
+    onlyDesc?: string;
+    mockupName?: string;
+    mockupCode?: string;
+    mockupRequestNo?: number;
+    shortPocketId?: number;
+    pantPocketId?: number;
+    wrestlingSingletId?: number;
+    attribute1?: number;
+    attribute2?: number;
+    attribute3?: number;
+    attribute4?: number;
+    attribute5?: number;
+    attribute6?: string;
+    attribute7?: string;
+    attribute8?: string;
+    attribute9?: string;
+    attribute10?: string;
+    attribute11?: string;
+    attribute12?: string;
+    attribute13?: string;
+    attribute14?: boolean;
+    attribute15?: boolean;
+    frontImage?: string;
+    frontImageImage?: File;
+    backImage?: string;
+    backImageImage?: File;
+    leftSleeveImage?: string;
+    rightSleeveImage?: string;
+    productFrontImage?: string;
+    productBackImage?: string;
+    shoulderPanelDesc?: string;
+    shoulderPanelImage?: string;
+    shoulderPanelImageFile?: File;
+    bagStrapDesc?: string;
+    bagStrapImage?: string;
+    bagStrapImageFile?: File;
+    insideHoodDesc?: string;
+    insideHoodImage?: string;
+    insideHoodImageFile?: File;
+    outsideHoodDesc?: string;
+    outsideHoodImage?: string;
+    outsideHoodImageFile?: File;
+    backMiddleLoopDesc?: string;
+    backMiddleLoopImage?: string;
+    backMiddleLoopImageFile?: File;
+  }
   

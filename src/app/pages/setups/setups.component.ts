@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoryModel } from 'src/app/models/category.model';
@@ -13,9 +13,11 @@ import { ProductSetupService } from 'src/app/services/product-setup.service';
 @Component({
   selector: 'app-setups',
   templateUrl: './setups.component.html',
-  styleUrl: './setups.component.scss'
+  styleUrl: './setups.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SetupsComponent implements OnInit {
+  readonly panelOpenState = signal(false);
   mainCategoryForm!: FormGroup;
   categoryForm!: FormGroup;
   subCategoryForm!: FormGroup;

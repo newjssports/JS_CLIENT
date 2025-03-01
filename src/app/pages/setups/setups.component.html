@@ -1,58 +1,71 @@
-<div class="form-container">
-    <h2>Main Category Setup</h2>
-    <form [formGroup]="mainCategoryForm">
-      <div class="row">
+
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+      <mat-expansion-panel-header>
+        Main Category Setup 
+      </mat-expansion-panel-header>
+      <form [formGroup]="mainCategoryForm">
+        <div class="row">
+          <div class="col-3">
+            <mat-form-field appearance="fill">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
+          </div>
         <div class="col-3">
           <mat-form-field appearance="fill">
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name">
+            <mat-label>Code</mat-label>
+            <input matInput formControlName="code">
           </mat-form-field>
         </div>
-      <div class="col-3">
-        <mat-form-field appearance="fill">
-          <mat-label>Code</mat-label>
-          <input matInput formControlName="code">
-        </mat-form-field>
+        <div class="col-3">
+          <mat-form-field appearance="fill">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description">
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <button [disabled]="!mainCategoryForm.valid" mat-raised-button color="primary" (click)="addMainCategory()" *ngIf="selectedCategoryIndex === null">Save</button>
+          <button mat-raised-button color="accent" (click)="updateMainCategory()" *ngIf="selectedCategoryIndex !== null">Update</button>  
+        </div>
       </div>
-      <div class="col-3">
-        <mat-form-field appearance="fill">
-          <mat-label>Description</mat-label>
-          <input matInput formControlName="description">
-        </mat-form-field>
+      </form>
+      <div class="grid">
+        <table mat-table [dataSource]="mainCategories">
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Main Category </th>
+            <td mat-cell *matCellDef="let category">{{ category.name }}</td>
+          </ng-container>
+    
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let category; let i = index">
+              <button mat-icon-button (click)="editCategory(i)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteCategory(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+    
+          <tr mat-header-row *matHeaderRowDef="['category', 'actions']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['category', 'actions'];"></tr>
+        </table>
       </div>
-      <div class="col-3">
-        <button [disabled]="!mainCategoryForm.valid" mat-raised-button color="primary" (click)="addMainCategory()" *ngIf="selectedCategoryIndex === null">Save</button>
-        <button mat-raised-button color="accent" (click)="updateMainCategory()" *ngIf="selectedCategoryIndex !== null">Update</button>  
-      </div>
-    </div>
-    </form>
-    <div class="grid">
-      <table mat-table [dataSource]="mainCategories">
-        <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef>Main Category </th>
-          <td mat-cell *matCellDef="let category">{{ category.name }}</td>
-        </ng-container>
-  
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef> Actions </th>
-          <td mat-cell *matCellDef="let category; let i = index">
-            <button mat-icon-button (click)="editCategory(i)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteCategory(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-  
-        <tr mat-header-row *matHeaderRowDef="['category', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['category', 'actions'];"></tr>
-      </table>
-    </div>
-
-
-
-    <h2>Category Setup</h2>
+      
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+    <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header>Category Setup</mat-expansion-panel-header>
     <form [formGroup]="categoryForm">
       <div class="row">
         <div class="col-4">
@@ -116,8 +129,18 @@
         <tr mat-row *matRowDef="let row; columns: ['category', 'actions'];"></tr>
       </table>
     </div>
-
-    <h2>Sub Category Setup</h2>
+    
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+    <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header>Sub Category Setup
+    </mat-expansion-panel-header>
+    
     <form [formGroup]="subCategoryForm">
       <mat-form-field class="margin-field" appearance="fill">
         <mat-label>Select Category</mat-label>
@@ -165,281 +188,371 @@
         <tr mat-row *matRowDef="let row; columns: ['category', 'actions'];"></tr>
       </table>
     </div>
-    <h2>Product Item Setup</h2>
-    <form [formGroup]="productItemForm">
-      <mat-form-field class="margin-field" appearance="fill" >
-        <mat-label>Select Category</mat-label>
-        <mat-select formControlName="categoryId">
-          <mat-option *ngFor="let category of categoriesByMainId" [value]="category.categoryId">
-            {{ category.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="margin-field" appearance="fill" *ngIf="subCatByCateId.length > 0">
-        <mat-label>Select SubCategory</mat-label>
-        <mat-select formControlName="subCategoryId">
-          <mat-option *ngFor="let subcategory of subCatByCateId" [value]="subcategory.subCategoryId">
-            {{ subcategory.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>   
-      <mat-form-field>
-        <mat-label>Product Name</mat-label>
-        <input matInput formControlName="name" placeholder="Enter product name">
-      </mat-form-field>
     
-      <mat-form-field>
-        <mat-label>Product Code</mat-label>
-        <input matInput formControlName="code" placeholder="Enter product code">
-      </mat-form-field>
-    
-      <mat-form-field>
-        <mat-label>Description</mat-label>
-        <textarea matInput formControlName="description" placeholder="Enter product description"></textarea>
-      </mat-form-field>
-
-      <ng-container>
-        <h3 for="add2DMockupImage">Add 2D Mockup</h3>
-        <button mat-raised-button color="primary" (click)="fileInput.click()">Choose 2D Mockup</button>
-        <input
-          type="file"
-          #fileInput
-          (change)="onFileChange($event, 'add2DMockupImage')"
-          accept="image/*"
-          style="display: none"
-        />
-        <div class="image-preview-container" *ngIf="previewImages['add2DMockupImage']">
-          <div class="image-preview">
-            <img [src]="previewImages['add2DMockupImage']" alt="2D Mockup Preview" class="preview-image" />
-            <button mat-icon-button (click)="removeImage('add2DMockupImage')">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </div>
-      </ng-container>
-
-      <ng-container>
-        <h3 for="add3DMockupImage">Add 3D Mockup</h3>
-        <button mat-raised-button color="primary" (click)="fileInput2.click()">Choose 3D Mockup</button>
-        <input
-          type="file"
-          #fileInput2
-          (change)="onFileChange2($event, 'add3DMockupImage')"
-          accept="image/*"
-          style="display: none"
-        />
-        <div class="image-preview-container" *ngIf="previewImages2['add3DMockupImage']">
-          <div class="image-preview">
-            <img [src]="previewImages2['add3DMockupImage']" alt="3D Mockup Preview" class="preview-image" />
-            <button mat-icon-button (click)="removeImage('add3DMockupImage')">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </div>
-      </ng-container>
-
-      <ng-container>
-        <h3 for="addSizeSpecsImage">Add Size Specs</h3>
-        <button mat-raised-button color="primary" (click)="fileInput3.click()">Choose Size Specs</button>
-        <input
-          type="file"
-          #fileInput3
-          (change)="onFileChange3($event, 'addSizeSpecsImage')"
-          accept="image/*"
-          style="display: none"
-        />
-        <div class="image-preview-container" *ngIf="previewImages3['addSizeSpecsImage']">
-          <div class="image-preview">
-            <img [src]="previewImages3['addSizeSpecsImage']" alt="Sizes Specs Preview" class="preview-image" />
-            <button mat-icon-button (click)="removeImage('addSizeSpecsImage')">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </div>
-      </ng-container>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+      <mat-expansion-panel-header> Product Item Setup</mat-expansion-panel-header>
+      <form [formGroup]="productItemForm">
+        <mat-form-field class="margin-field" appearance="fill" >
+          <mat-label>Select Category</mat-label>
+          <mat-select formControlName="categoryId">
+            <mat-option *ngFor="let category of categoriesByMainId" [value]="category.categoryId">
+              {{ category.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="margin-field" appearance="fill" *ngIf="subCatByCateId.length > 0">
+          <mat-label>Select SubCategory</mat-label>
+          <mat-select formControlName="subCategoryId">
+            <mat-option *ngFor="let subcategory of subCatByCateId" [value]="subcategory.subCategoryId">
+              {{ subcategory.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>   
+        <mat-form-field>
+          <mat-label>Product Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter product name">
+        </mat-form-field>
       
-          <!-- Wrapper div for flexbox -->
-  <div class="checkbox-container">
-    <mat-checkbox formControlName="isNeck">Neck Style</mat-checkbox>
-    <mat-checkbox formControlName="isFrontDesc">Front Description</mat-checkbox>
-    <!-- <mat-checkbox formControlName="isFrontImage">Front Image</mat-checkbox> -->
-    <mat-checkbox formControlName="isBackDesc">Back Description</mat-checkbox>
-    <!-- <mat-checkbox formControlName="isBackImage">Back Image</mat-checkbox> -->
-    <mat-checkbox formControlName="isOnlyDesc">Only Description</mat-checkbox>
-    <mat-checkbox formControlName="isLeftSleeveDesc">Left Sleeve Description</mat-checkbox>
-    <mat-checkbox formControlName="isRightSleeveDesc">Right Sleeve Description</mat-checkbox>
-    <!-- <mat-checkbox formControlName="isLeftSleeveImage">Left Sleeve Image</mat-checkbox> -->
-    <!-- <mat-checkbox formControlName="isRightSleeveImage">Right Sleeve Image</mat-checkbox> -->
-    <mat-checkbox formControlName="isAllow1">Shoulder Panel</mat-checkbox>
-    <mat-checkbox formControlName="isAllow2">Bag Strap</mat-checkbox>
-    <mat-checkbox formControlName="isAllow3">Inside Hood</mat-checkbox>
-    <mat-checkbox formControlName="isAllow4">Outside Hood</mat-checkbox>
-    <mat-checkbox formControlName="isAllow5">Back Midle Loop</mat-checkbox>
-    <mat-checkbox formControlName="isAllow6">Bag Front</mat-checkbox>
-    <mat-checkbox formControlName="isAllow7">Add 2D Mockup</mat-checkbox>
-    <mat-checkbox formControlName="isAllow8">Add Size Specs</mat-checkbox>
-    <mat-checkbox formControlName="isAllow9">Add 3D Mockup</mat-checkbox>
-    <mat-checkbox formControlName="isAllow10">Size Image</mat-checkbox>
-    <mat-checkbox formControlName="isAllow11">Shorts Pocket</mat-checkbox>
-    <mat-checkbox formControlName="isAllow12">Pant Pockets</mat-checkbox>
-    <mat-checkbox formControlName="isAllow13">Wrestling Singlet Style</mat-checkbox>
-
-   
-    <!-- <mat-checkbox formControlName="isAllow_14">IS_ALLOW_14</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_15">IS_ALLOW_15</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_16">IS_ALLOW_16</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_17">IS_ALLOW_17</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_18">IS_ALLOW_18</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_19">IS_ALLOW_19</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_20">IS_ALLOW_20</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_21">IS_ALLOW_21</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_22">IS_ALLOW_22</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_23">IS_ALLOW_23</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_24">IS_ALLOW_24</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_25">IS_ALLOW_25</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_26">IS_ALLOW_26</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_27">IS_ALLOW_27</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_28">IS_ALLOW_28</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_29">IS_ALLOW_29</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_30">IS_ALLOW_30</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_31">IS_ALLOW_31</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_32">IS_ALLOW_32</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_33">IS_ALLOW_33</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_34">IS_ALLOW_34</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_35">IS_ALLOW_35</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_36">IS_ALLOW_36</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_37">IS_ALLOW_37</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_38">IS_ALLOW_38</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_39">IS_ALLOW_39</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_40">IS_ALLOW_40</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_41">IS_ALLOW_41</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_42">IS_ALLOW_42</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_43">IS_ALLOW_43</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_44">IS_ALLOW_44</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_45">IS_ALLOW_45</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_46">IS_ALLOW_46</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_47">IS_ALLOW_47</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_48">IS_ALLOW_48</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_49">IS_ALLOW_49</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_50">IS_ALLOW_50</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_51">IS_ALLOW_51</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_52">IS_ALLOW_52</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_53">IS_ALLOW_53</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_54">IS_ALLOW_54</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_55">IS_ALLOW_55</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_56">IS_ALLOW_56</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_57">IS_ALLOW_57</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_58">IS_ALLOW_58</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_59">IS_ALLOW_59</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_60">IS_ALLOW_60</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_61">IS_ALLOW_61</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_62">IS_ALLOW_62</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_63">IS_ALLOW_63</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_64">IS_ALLOW_64</mat-checkbox>
-    <mat-checkbox formControlName="isAllow_65">IS_ALLOW_65</mat-checkbox> -->
-
-  </div>
-
-  <!-- Wrapper for numbered checkboxes -->
-  <div class="checkbox-container">
-    <div *ngFor="let number of numbers" class="checkbox-item">
-      <mat-checkbox [formControlName]="'isAllow' + number">Allow {{ number }}</mat-checkbox>
-    </div>
-  </div>
-      <!-- <mat-form-field>
-        <mat-label>Front Image URL</mat-label>
-        <input matInput formControlName="frontImage" placeholder="Enter front image URL">
-      </mat-form-field>
-    
-      <mat-form-field>
-        <mat-label>Back Image URL</mat-label>
-        <input matInput formControlName="backImage" placeholder="Enter back image URL">
-      </mat-form-field> -->
-      <button [disabled]="!productItemForm.valid" mat-raised-button color="primary" (click)="addItem()">Add New Product</button>
-    </form>
-    <div class="grid">
-      <table mat-table [dataSource]="productList">
-        <ng-container matColumnDef="item">
-          <th mat-header-cell *matHeaderCellDef> Item </th>
-          <td mat-cell *matCellDef="let item">{{ item.name }}</td>
+        <mat-form-field>
+          <mat-label>Product Code</mat-label>
+          <input matInput formControlName="code" placeholder="Enter product code">
+        </mat-form-field>
+      
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" placeholder="Enter product description"></textarea>
+        </mat-form-field>
+  
+        <ng-container>
+          <h3 for="add2DMockupImage">Add 2D Mockup</h3>
+          <button mat-raised-button color="primary" (click)="fileInput.click()">Choose 2D Mockup</button>
+          <input
+            type="file"
+            #fileInput
+            (change)="onFileChange($event, 'add2DMockupImage')"
+            accept="image/*"
+            style="display: none"
+          />
+          <div class="image-preview-container" *ngIf="previewImages['add2DMockupImage']">
+            <div class="image-preview">
+              <img [src]="previewImages['add2DMockupImage']" alt="2D Mockup Preview" class="preview-image" />
+              <button mat-icon-button (click)="removeImage('add2DMockupImage')">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
         </ng-container>
   
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef> Actions </th>
-          <td mat-cell *matCellDef="let item; let i = index">
-            <button disabled mat-icon-button (click)="editCategory(i)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button disabled mat-icon-button (click)="deleteItem(selectedCategoryIndex!, selectedSubCategoryIndex!, i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
+        <ng-container>
+          <h3 for="add3DMockupImage">Add 3D Mockup</h3>
+          <button mat-raised-button color="primary" (click)="fileInput2.click()">Choose 3D Mockup</button>
+          <input
+            type="file"
+            #fileInput2
+            (change)="onFileChange2($event, 'add3DMockupImage')"
+            accept="image/*"
+            style="display: none"
+          />
+          <div class="image-preview-container" *ngIf="previewImages2['add3DMockupImage']">
+            <div class="image-preview">
+              <img [src]="previewImages2['add3DMockupImage']" alt="3D Mockup Preview" class="preview-image" />
+              <button mat-icon-button (click)="removeImage('add3DMockupImage')">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
         </ng-container>
   
-        <tr mat-header-row *matHeaderRowDef="['item', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['item', 'actions'];"></tr>
-      </table>
+        <ng-container>
+          <h3 for="addSizeSpecsImage">Add Size Specs</h3>
+          <button mat-raised-button color="primary" (click)="fileInput3.click()">Choose Size Specs</button>
+          <input
+            type="file"
+            #fileInput3
+            (change)="onFileChange3($event, 'addSizeSpecsImage')"
+            accept="image/*"
+            style="display: none"
+          />
+          <div class="image-preview-container" *ngIf="previewImages3['addSizeSpecsImage']">
+            <div class="image-preview">
+              <img [src]="previewImages3['addSizeSpecsImage']" alt="Sizes Specs Preview" class="preview-image" />
+              <button mat-icon-button (click)="removeImage('addSizeSpecsImage')">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </ng-container>
+        
+            <!-- Wrapper div for flexbox -->
+    <div class="checkbox-container">
+      <mat-checkbox formControlName="isNeck">Neck Style</mat-checkbox>
+      <mat-checkbox formControlName="isFrontDesc">Front Description</mat-checkbox>
+      <!-- <mat-checkbox formControlName="isFrontImage">Front Image</mat-checkbox> -->
+      <mat-checkbox formControlName="isBackDesc">Back Description</mat-checkbox>
+      <!-- <mat-checkbox formControlName="isBackImage">Back Image</mat-checkbox> -->
+      <mat-checkbox formControlName="isOnlyDesc">Only Description</mat-checkbox>
+      <mat-checkbox formControlName="isLeftSleeveDesc">Left Sleeve Description</mat-checkbox>
+      <mat-checkbox formControlName="isRightSleeveDesc">Right Sleeve Description</mat-checkbox>
+      <!-- <mat-checkbox formControlName="isLeftSleeveImage">Left Sleeve Image</mat-checkbox> -->
+      <!-- <mat-checkbox formControlName="isRightSleeveImage">Right Sleeve Image</mat-checkbox> -->
+      <mat-checkbox formControlName="isAllow1">Shoulder Panel</mat-checkbox>
+      <mat-checkbox formControlName="isAllow2">Bag Strap</mat-checkbox>
+      <mat-checkbox formControlName="isAllow3">Inside Hood</mat-checkbox>
+      <mat-checkbox formControlName="isAllow4">Outside Hood</mat-checkbox>
+      <mat-checkbox formControlName="isAllow5">Back Midle Loop</mat-checkbox>
+      <mat-checkbox formControlName="isAllow6">Bag Front</mat-checkbox>
+      <mat-checkbox formControlName="isAllow7">Add 2D Mockup</mat-checkbox>
+      <mat-checkbox formControlName="isAllow8">Add Size Specs</mat-checkbox>
+      <mat-checkbox formControlName="isAllow9">Add 3D Mockup</mat-checkbox>
+      <mat-checkbox formControlName="isAllow10">Size Image</mat-checkbox>
+      <mat-checkbox formControlName="isAllow11">Shorts Pocket</mat-checkbox>
+      <mat-checkbox formControlName="isAllow12">Pant Pockets</mat-checkbox>
+      <mat-checkbox formControlName="isAllow13">Wrestling Singlet Style</mat-checkbox>
+  
+      
+      <!-- <mat-checkbox formControlName="isAllow_14">IS_ALLOW_14</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_15">IS_ALLOW_15</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_16">IS_ALLOW_16</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_17">IS_ALLOW_17</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_18">IS_ALLOW_18</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_19">IS_ALLOW_19</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_20">IS_ALLOW_20</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_21">IS_ALLOW_21</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_22">IS_ALLOW_22</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_23">IS_ALLOW_23</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_24">IS_ALLOW_24</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_25">IS_ALLOW_25</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_26">IS_ALLOW_26</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_27">IS_ALLOW_27</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_28">IS_ALLOW_28</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_29">IS_ALLOW_29</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_30">IS_ALLOW_30</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_31">IS_ALLOW_31</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_32">IS_ALLOW_32</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_33">IS_ALLOW_33</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_34">IS_ALLOW_34</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_35">IS_ALLOW_35</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_36">IS_ALLOW_36</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_37">IS_ALLOW_37</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_38">IS_ALLOW_38</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_39">IS_ALLOW_39</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_40">IS_ALLOW_40</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_41">IS_ALLOW_41</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_42">IS_ALLOW_42</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_43">IS_ALLOW_43</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_44">IS_ALLOW_44</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_45">IS_ALLOW_45</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_46">IS_ALLOW_46</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_47">IS_ALLOW_47</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_48">IS_ALLOW_48</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_49">IS_ALLOW_49</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_50">IS_ALLOW_50</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_51">IS_ALLOW_51</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_52">IS_ALLOW_52</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_53">IS_ALLOW_53</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_54">IS_ALLOW_54</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_55">IS_ALLOW_55</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_56">IS_ALLOW_56</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_57">IS_ALLOW_57</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_58">IS_ALLOW_58</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_59">IS_ALLOW_59</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_60">IS_ALLOW_60</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_61">IS_ALLOW_61</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_62">IS_ALLOW_62</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_63">IS_ALLOW_63</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_64">IS_ALLOW_64</mat-checkbox>
+      <mat-checkbox formControlName="isAllow_65">IS_ALLOW_65</mat-checkbox> -->
+  
     </div>
-    <br>
-    <br>
-    <h2>Mockup Step Setup</h2>
-    <form [formGroup]="mockupSteps">
-      <div class="row">
-        <div class="col-4">
-          <mat-form-field class="margin-field" appearance="fill" >
-            <mat-label>Select From Mockup Step Name</mat-label>
-            <mat-select formControlName="fromMockupDesignStepId">
-              <mat-option *ngFor="let item of mockupDesignNames" [value]="item.mockupDesignStepId">
-                {{ item.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>   
-        <div class="col-4">
-          <mat-form-field class="margin-field" appearance="fill" >
-            <mat-label>Select To Mockup Step Name</mat-label>
-            <mat-select formControlName="toMockupDesignStepId">
-              <mat-option *ngFor="let item of mockupDesignNames" [value]="item.mockupDesignStepId">
-                {{ item.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div> 
-        <div class="col-4">
-          <button [disabled]="!mockupSteps.valid" mat-raised-button color="primary" (click)="createMockupStep()" *ngIf="selectedCategoryIndex === null">Add</button>
-          <button mat-raised-button color="accent" (click)="updateMainCategory()" *ngIf="selectedCategoryIndex !== null">Update</button>
-        </div>
+  
+    <!-- Wrapper for numbered checkboxes -->
+    <div class="checkbox-container">
+      <div *ngFor="let number of numbers" class="checkbox-item">
+        <mat-checkbox [formControlName]="'isAllow' + number">Allow {{ number }}</mat-checkbox>
       </div>
-    </form>
-    <div class="grid">
-      <table mat-table [dataSource]="mockupDesignSteps">
-        <ng-container matColumnDef="From">
-          <th mat-header-cell *matHeaderCellDef>From</th>
-          <td mat-cell *matCellDef="let item">{{ item.fromMockupDesignStep?.name }}</td>
-        </ng-container>
-        <ng-container matColumnDef="To">
-          <th mat-header-cell *matHeaderCellDef>To</th>
-          <td mat-cell *matCellDef="let item">{{ item.toMockupDesignStep?.name }}</td>
-        </ng-container>
-  
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef> Actions </th>
-          <td mat-cell *matCellDef="let item; let i = index">
-            <button mat-icon-button (click)="editCategory(i)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteCategory(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-  
-        <tr mat-header-row *matHeaderRowDef="['From','To', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['From','To', 'actions'];"></tr>
-      </table>
     </div>
+        <!-- <mat-form-field>
+          <mat-label>Front Image URL</mat-label>
+          <input matInput formControlName="frontImage" placeholder="Enter front image URL">
+        </mat-form-field>
+      
+        <mat-form-field>
+          <mat-label>Back Image URL</mat-label>
+          <input matInput formControlName="backImage" placeholder="Enter back image URL">
+        </mat-form-field> -->
+        <button [disabled]="!productItemForm.valid" mat-raised-button color="primary" (click)="addItem()">Add New Product</button>
+      </form>
+      <br>
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+        <p>This is the primary content of the panel.</p>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+        <mat-expansion-panel-header>Product Detail</mat-expansion-panel-header>
+        <div class="grid">
+          <table mat-table [dataSource]="productList">
+            <ng-container matColumnDef="item">
+              <th mat-header-cell *matHeaderCellDef> Item </th>
+              <td mat-cell *matCellDef="let item">{{ item.name }}</td>
+            </ng-container>
+      
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let item; let i = index">
+                <button disabled mat-icon-button (click)="editCategory(i)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button disabled mat-icon-button (click)="deleteItem(selectedCategoryIndex!, selectedSubCategoryIndex!, i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+      
+            <tr mat-header-row *matHeaderRowDef="['item', 'actions']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['item', 'actions'];"></tr>
+          </table>
+        </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+    <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header>Fabric Setup</mat-expansion-panel-header>
+    
+    
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+    <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header>Neck Style Setup</mat-expansion-panel-header>
+    
+    
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br>
 
-    <h2>Mockup Design Step Setup</h2>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+    <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header>Short Pockets Setup </mat-expansion-panel-header>
+    
+    
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+    <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header>Pant Pockets Setup </mat-expansion-panel-header>
+    
+    
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+    <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header>Wrestling Singlet Style Setup</mat-expansion-panel-header>
+    
+    
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br>
+
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+      <mat-expansion-panel-header>Mockup Hierarchy Setup</mat-expansion-panel-header>
+      <form [formGroup]="mockupSteps">
+        <div class="row">
+          <div class="col-4">
+            <mat-form-field class="margin-field" appearance="fill" >
+              <mat-label>Select From Mockup Step Name</mat-label>
+              <mat-select formControlName="fromMockupDesignStepId">
+                <mat-option *ngFor="let item of mockupDesignNames" [value]="item.mockupDesignStepId">
+                  {{ item.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>   
+          <div class="col-4">
+            <mat-form-field class="margin-field" appearance="fill" >
+              <mat-label>Select To Mockup Step Name</mat-label>
+              <mat-select formControlName="toMockupDesignStepId">
+                <mat-option *ngFor="let item of mockupDesignNames" [value]="item.mockupDesignStepId">
+                  {{ item.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div> 
+          <div class="col-4">
+            <button [disabled]="!mockupSteps.valid" mat-raised-button color="primary" (click)="createMockupStep()" *ngIf="selectedCategoryIndex === null">Add</button>
+            <button mat-raised-button color="accent" (click)="updateMainCategory()" *ngIf="selectedCategoryIndex !== null">Update</button>
+          </div>
+        </div>
+      </form>
+      <div class="grid">
+        <table mat-table [dataSource]="mockupDesignSteps">
+          <ng-container matColumnDef="From">
+            <th mat-header-cell *matHeaderCellDef>From</th>
+            <td mat-cell *matCellDef="let item">{{ item.fromMockupDesignStep?.name }}</td>
+          </ng-container>
+          <ng-container matColumnDef="To">
+            <th mat-header-cell *matHeaderCellDef>To</th>
+            <td mat-cell *matCellDef="let item">{{ item.toMockupDesignStep?.name }}</td>
+          </ng-container>
+    
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let item; let i = index">
+              <button mat-icon-button (click)="editCategory(i)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteCategory(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+    
+          <tr mat-header-row *matHeaderRowDef="['From','To', 'actions']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['From','To', 'actions'];"></tr>
+        </table>
+      </div>
+      
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+    <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header>Mockup Design Order Hierarchy Setup</mat-expansion-panel-header>
     <form [formGroup]="mockupDesigningSteps">
       <div class="row">
         <div class="col-4">
@@ -495,5 +608,6 @@
         <tr mat-row *matRowDef="let row; columns: ['From','To', 'actions'];"></tr>
       </table>
     </div>
-  </div>
+    </mat-expansion-panel>
+  </mat-accordion>
   
