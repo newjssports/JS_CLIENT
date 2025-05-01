@@ -144,7 +144,7 @@
       <mat-form-field class="margin-field" appearance="fill">
         <mat-label>Select Category</mat-label>
         <mat-select
-          formControlName="categoryId">
+          formControlName="categoryId" [panelClass]="isMobile ? 'mobile-select-panel' : ''">
           <mat-option *ngFor="let category of categoriesByMainId" [value]="category.categoryId">
             {{ category.name }}
           </mat-option>
@@ -202,7 +202,7 @@
       <form [formGroup]="productItemForm">
         <mat-form-field class="margin-field" appearance="fill" >
           <mat-label>Select Category</mat-label>
-          <mat-select formControlName="categoryId">
+          <mat-select formControlName="categoryId"  [panelClass]="isMobile ? 'mobile-select-panel' : ''">
             <mat-option *ngFor="let category of categoriesByMainId" [value]="category.categoryId">
               {{ category.name }}
             </mat-option>
@@ -210,7 +210,7 @@
         </mat-form-field>
         <mat-form-field class="margin-field" appearance="fill" *ngIf="subCatByCateId.length > 0">
           <mat-label>Select SubCategory</mat-label>
-          <mat-select formControlName="subCategoryId">
+          <mat-select formControlName="subCategoryId"  [panelClass]="isMobile ? 'mobile-select-panel' : ''">
             <mat-option *ngFor="let subcategory of subCatByCateId" [value]="subcategory.subCategoryId">
               {{ subcategory.name }}
             </mat-option>
@@ -495,7 +495,7 @@
           <div class="col-4">
             <mat-form-field class="margin-field" appearance="fill" >
               <mat-label>Select From Mockup Step Name</mat-label>
-              <mat-select formControlName="fromMockupDesignStepId">
+              <mat-select formControlName="fromMockupDesignStepId"  [panelClass]="isMobile ? 'mobile-select-panel' : ''">
                 <mat-option *ngFor="let item of mockupDesignNames" [value]="item.mockupDesignStepId">
                   {{ item.name }}
                 </mat-option>
@@ -505,7 +505,7 @@
           <div class="col-4">
             <mat-form-field class="margin-field" appearance="fill" >
               <mat-label>Select To Mockup Step Name</mat-label>
-              <mat-select formControlName="toMockupDesignStepId">
+              <mat-select formControlName="toMockupDesignStepId"  [panelClass]="isMobile ? 'mobile-select-panel' : ''">
                 <mat-option *ngFor="let item of mockupDesignNames" [value]="item.mockupDesignStepId">
                   {{ item.name }}
                 </mat-option>
@@ -560,7 +560,7 @@
         <div class="col-4">
           <mat-form-field class="margin-field" appearance="fill" >
             <mat-label>Select From Mockup Step Name</mat-label>
-            <mat-select formControlName="fromMockupDesignStepId">
+            <mat-select formControlName="fromMockupDesignStepId"  [panelClass]="isMobile ? 'mobile-select-panel' : ''">
               <mat-option *ngFor="let item of mockupDesignedNames" [value]="item.mockupDesignStepId">
                 {{ item.name }}
               </mat-option>
@@ -570,7 +570,7 @@
         <div class="col-4">
           <mat-form-field class="margin-field" appearance="fill" >
             <mat-label>Select To Mockup Step Name</mat-label>
-            <mat-select formControlName="toMockupDesignStepId">
+            <mat-select formControlName="toMockupDesignStepId"  [panelClass]="isMobile ? 'mobile-select-panel' : ''">
               <mat-option *ngFor="let item of mockupDesignedNames" [value]="item.mockupDesignStepId">
                 {{ item.name }}
               </mat-option>

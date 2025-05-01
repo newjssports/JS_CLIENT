@@ -48,5 +48,15 @@
     border-radius: 4px;
   }
   
-  
+  ::ng-deep .mobile-select-panel {
+    max-height: 80vh !important;
+    width: 100vw !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto;
+    border-radius: 8px 8px 0 0;
+    bottom: 0 !important;
+    position: fixed !important;
+    top: auto !important;
+  }
   
