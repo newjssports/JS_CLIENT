@@ -293,5 +293,15 @@ export interface ProductsListModel {
   subCategory?: SubCategoryModel;
 }
 
+export interface AddMultipleFabrics{
+  productId: number;
+  fabrics:Fabrics[];
 
+}
+
+export class Fabrics{
+  name: string;
+  //code: string;
+  description: string;
+}
 

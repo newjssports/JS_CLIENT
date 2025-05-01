@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { MainCategoryModel } from '../models/MainCategoryModel';
 import { CategoryModel } from '../models/category.model';
 import { SubCategoryModel } from '../models/sub-category.model';
-import { AddEditProductModel, GetProductPriceByUser, ProductModel, ProductSizesPriceListModel, ProductsListModel, SizePriceIdsRequest } from '../models/product.model';
+import { AddEditProductModel, AddMultipleFabrics, GetProductPriceByUser, ProductModel, ProductSizesPriceListModel, ProductsListModel, SizePriceIdsRequest } from '../models/product.model';
 import { FabricTypeModel } from '../models/fabric-type.model';
 import { NeckStyleModel } from '../models/neck-style.model';
 import { ProductSizeList } from '../models/product-size-list.model';
@@ -33,8 +33,8 @@ export class ProductSetupService {
   getProductBySubCateId(id: number): Observable<ProductModel[]> {
     return this.http.get<ProductModel[]>(this.apiUrl+"Product/getProductBySubCateId?id="+ id);
   }
-  getFabricTypes(): Observable<FabricTypeModel[]> {
-    return this.http.get<FabricTypeModel[]>(this.apiUrl+"FabricType/getFabricTypes");
+  getFabricTypes(productId?: number ): Observable<FabricTypeModel[]> {
+    return this.http.get<FabricTypeModel[]>(this.apiUrl+"FabricType/getFabricTypes?productId="+productId);
   }
   getNeckStyles(): Observable<NeckStyleModel[]> {
     return this.http.get<NeckStyleModel[]>(this.apiUrl+"NeckStyle/getNeckStyles");
@@ -60,4 +60,7 @@ export class ProductSetupService {
       return this.http.get<ProductsListModel[]>(this.apiUrl+"Product/getAllProducts");
     }
 
+    addMultipleFabrics(model: AddMultipleFabrics): Observable<any> {
+      return this.http.post<any>(this.apiUrl+"FabricType/addFabrics", model);
+    }
 }

@@ -55,6 +55,9 @@ export class OrderDesignComponent implements OnInit {
   items: string[] = [];
   frontImages: string[] = [];
   backImages: string[] = [];
+  leftSleeveImages: string[] = [];
+  rightSleeveImages: string[] = [];
+
   displayedColumns: string[] = ['name', 'category', 'subcategory', 'item'];
   dataSource = [
     { name: 'Sample Item 1', category: 'Men\'s Sportswear', subcategory: 'Tops', item: 'T-Shirt' },
@@ -119,7 +122,7 @@ export class OrderDesignComponent implements OnInit {
     
     this.getMainCategory();
     this.updateDisplayedColumns();
-    this.getFabricTypes();
+    
     this.getNeckStyles();
     this.form.get('categoryId')?.valueChanges.subscribe(categoryId => {
       this.getSubCategoryByCateId(categoryId);
@@ -242,8 +245,8 @@ export class OrderDesignComponent implements OnInit {
       
     });
   }
-  getFabricTypes(){
-    this.productSetupService.getFabricTypes().subscribe(res =>{
+  getFabricTypes(productId: number ){
+    this.productSetupService.getFabricTypes(productId).subscribe(res =>{
       this.fabrics = res;
     });
   }
@@ -467,6 +470,11 @@ const newItem: NewOrderRequest = {
   fabricType: this.getFabricName(formValue.fabricTypeId),
   neckStyleId: formValue.neckStyleId,
   neckStyle: this.getNeckStyleName(formValue.neckStyleId),
+
+  shortPocketId: formValue.shortPocketsId,
+  pantPocketId: formValue.pantPocketsId,
+  wrestlingSingletId: formValue.wrestlingId,
+
   frontDescription: formValue.frontDesc,
   backDescription: formValue.backDesc,
   leftSleeveDesc: formValue.leftSleeveDesc || '', // Optional if applicable
@@ -474,6 +482,44 @@ const newItem: NewOrderRequest = {
   additionalDetail: formValue.additionalDetail,
   frontImages: [...this.frontImages],
   backImages: [...this.backImages],
+
+  rightSleeveImages: [...this.rightSleeveImages],
+  leftSleeveImages: [...this.leftSleeveImages],
+
+  attribute1: formValue.isAllow1, // Shoulder Panel Desc with Image
+  attribute2: formValue.isAllow2, // Bag Strap Desc with Image
+  attribute3: formValue.isAllow3, // Inside Hood Desc with Image
+  attribute4: formValue.isAllow4, // Outside Hood Desc with Image
+  attribute5: formValue.isAllow5, // Back Middle Loop Desc with Image
+  attribute6: formValue.isAllow6, // Bag Front Desc with Image
+  attribute7: formValue.isAllow7, // Add 2D Mockup
+  attribute8: formValue.isAllow8, // Add Size Specs
+  attribute9: formValue.isAllow9, // Add 3D Mockup
+  attribute10: formValue.isAllow10, // Size Image
+  attribute11: formValue.isAllow11, // Shorts Pocket
+  attribute12: formValue.isAllow12, // Pant Pocket
+  attribute13: formValue.isAllow13 // Wrestling Singlet Style
+  ,
+
+  attribute14: false,
+  attribute15: false,
+  frontImage: '',
+  backImage: '',
+  leftSleeveImage: '',
+  rightSleeveImage: '',
+  productFrontImage: '',
+  productBackImage: '',
+  shoulderPanelDesc: '',
+  shoulderPanelImage: '',
+  bagStrapDesc: '',
+  bagStrapImage: '',
+  insideHoodDesc: '',
+  insideHoodImage: '',
+  outsideHoodDesc: '',
+  outsideHoodImage: '',
+  backMiddleLoopDesc: '',
+  backMiddleLoopImage: '',
+
   productPrice: PRODUCT_PRICE,
   productSizePrice : PRODUCT_SIZES_PRICE,
   rushPrice: PRODUCT_RUSH_PRICE,

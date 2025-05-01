@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserMockupAction } from 'src/app/core/enums';
@@ -21,7 +22,9 @@ import { UserRightsService } from 'src/app/services/user-rights.service';
   templateUrl: './mockup-design.component.html',
   styleUrl: './mockup-design.component.scss'
 })
-export class MockupDesignComponent {
+export class MockupDesignComponent implements OnInit {
+  isMobile: boolean = false;
+
   mainCategories: MainCategoryModel[] = [];
   categoriesByMainId: CategoryModel[] = [];
   subCatByCateId: SubCategoryModel[] = [];
@@ -64,7 +67,8 @@ export class MockupDesignComponent {
   constructor(private fb: FormBuilder, private productSetupService: ProductSetupService,
    private mockupService: MockupService,
    private userRightsService: UserRightsService,
-   private _snackBar: MatSnackBar
+   private _snackBar: MatSnackBar,
+   private breakpointObserver: BreakpointObserver
   ) {
     this.form = this.fb.group({
       mockupId:[0],
@@ -111,11 +115,16 @@ export class MockupDesignComponent {
   }
 
   ngOnInit() {
+    this.isMobile = window.innerWidth <= 768;
+  window.addEventListener('resize', () => {
+    this.isMobile = window.innerWidth <= 768;
+  });
+  
     this.getUerMockupDesignActionRights();
     
     this.getMainCategory();
     this.updateDisplayedColumns();
-    this.getFabricTypes();
+    //this.getFabricTypes();
     this.getNeckStyles();
     this.getShortPockets();
     this.getPantPocketss();
@@ -133,8 +142,10 @@ export class MockupDesignComponent {
       }
     });
     this.form.get('productId')?.valueChanges.subscribe(productId => {
+      this.fabrics = [];
       if(productId){
         this.selectedProduct = this.products.find(x => x.productId === productId);
+        this.getFabricTypes(this.selectedProduct?.productId);
         this.updateDisplayedColumns();
         
       }
@@ -197,8 +208,8 @@ export class MockupDesignComponent {
       this.products = product;
     });
   }
-  getFabricTypes(){
-    this.productSetupService.getFabricTypes().subscribe(res =>{
+  getFabricTypes(productId?: number){
+    this.productSetupService.getFabricTypes(productId).subscribe(res =>{
       this.fabrics = res;
     });
   }
@@ -231,10 +242,30 @@ export class MockupDesignComponent {
     const formValue = this.form.value;
 
    // Construct the new item
+// const newItem: MockupModel = {
+//   mainCategoryId: formValue.mainCategoryId,
+//   categoryId: formValue.categoryId,
+//   subCategoryId: formValue.subCategoryId,
+//   productId: formValue.productId,
+//   productName: this.getProductName(formValue.productId),
+//   teamName: formValue.teamName,
+//   fabricTypeId: formValue.fabricTypeId,
+//   fabricType: this.getFabricName(formValue.fabricTypeId),
+//   neckStyleId: formValue.neckStyleId,
+//   neckStyle: this.getNeckStyleName(formValue.neckStyleId),
+//   frontDescription: formValue.frontDesc,
+//   backDescription: formValue.backDesc,
+//   leftSleeveDesc: formValue.leftSleeveDesc || '', // Optional if applicable
+//   rightSleeveDesc: formValue.rightSleeveDesc || '', // Optional if applicable
+//   additionalDetail: formValue.additionalDetail,
+//   frontImages: [...this.frontImages],
+//   backImages: [...this.backImages],
+// };
+
 const newItem: MockupModel = {
-  mockupId: 0, // Assuming a default value as it's not provided by formValue
-  //mockupName: formValue.mockupName || "",
-  //mockupCode: formValue.mockupCode || "",
+  mockupId: formValue.mockupId,
+  //mockupName: formValue.mockupName,
+  //mockupCode: formValue.mockupCode,
   mainCategoryId: formValue.mainCategoryId,
   categoryId: formValue.categoryId,
   subCategoryId: formValue.subCategoryId,
@@ -245,14 +276,64 @@ const newItem: MockupModel = {
   fabricType: this.getFabricName(formValue.fabricTypeId),
   neckStyleId: formValue.neckStyleId,
   neckStyle: this.getNeckStyleName(formValue.neckStyleId),
+  shortPocketId: formValue.shortPocketsId,
+  pantPocketId: formValue.pantPocketsId,
+  wrestlingSingletId: formValue.wrestlingId,
   frontDescription: formValue.frontDesc,
   backDescription: formValue.backDesc,
-  leftSleeveDesc: formValue.leftSleeveDesc || '', // Optional if applicable
-  rightSleeveDesc: formValue.rightSleeveDesc || '', // Optional if applicable
+  leftSleeveDesc: formValue.leftSleeve,
+  rightSleeveDesc: formValue.rightSleeve,
   additionalDetail: formValue.additionalDetail,
+
   frontImages: [...this.frontImages],
   backImages: [...this.backImages],
+  rightSleeveImages: [...this.rightSleeveImages],
+  leftSleeveImages: [...this.leftSleeveImages],
+
+  attribute1: formValue.isAllow1, // Shoulder Panel Desc with Image
+  attribute2: formValue.isAllow2, // Bag Strap Desc with Image
+  attribute3: formValue.isAllow3, // Inside Hood Desc with Image
+  attribute4: formValue.isAllow4, // Outside Hood Desc with Image
+  attribute5: formValue.isAllow5, // Back Middle Loop Desc with Image
+  attribute6: formValue.isAllow6, // Bag Front Desc with Image
+  attribute7: formValue.isAllow7, // Add 2D Mockup
+  attribute8: formValue.isAllow8, // Add Size Specs
+  attribute9: formValue.isAllow9, // Add 3D Mockup
+  attribute10: formValue.isAllow10, // Size Image
+  attribute11: formValue.isAllow11, // Shorts Pocket
+  attribute12: formValue.isAllow12, // Pant Pocket
+  attribute13: formValue.isAllow13 // Wrestling Singlet Style
+  ,
+ // onlyDesc: '',
+  // active: false,
+  // status: '',
+  // deleted: false,
+  // createdBy: '',
+  // createdDate: null,
+  // modifiedBy: '',
+  // modifiedDate: null,
+  // userId: 0,
+  // mockupRequestNo: 0,
+  attribute14: false,
+  attribute15: false,
+  frontImage: '',
+  backImage: '',
+  leftSleeveImage: '',
+  rightSleeveImage: '',
+  productFrontImage: '',
+  productBackImage: '',
+  shoulderPanelDesc: '',
+  shoulderPanelImage: '',
+  bagStrapDesc: '',
+  bagStrapImage: '',
+  insideHoodDesc: '',
+  insideHoodImage: '',
+  outsideHoodDesc: '',
+  outsideHoodImage: '',
+  backMiddleLoopDesc: '',
+  backMiddleLoopImage: ''
 };
+
 
 // Add the new item to the orderItems array
 this.orderItems.push(newItem);

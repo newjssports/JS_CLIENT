@@ -6,28 +6,106 @@ import { ProductModel } from "./product.model";
 import { SubCategoryModel } from "./sub-category.model";
 import { ClientUserList } from "./user.model";
 
+// export class MockupModel {
+//     mockupId: number = 0;
+//     mainCategoryId: number = 0;
+//     categoryId: number = 0;
+//     subCategoryId: number = 0;
+//     productId: number = 0;
+//     productName: string = '';
+//     teamName: string = '';
+//     fabricTypeId: number = 0;
+//     fabricType: string = '';
+//     neckStyleId: number = 0;
+//     neckStyle: string = '';
+//     frontDescription: string = '';
+//     backDescription: string = '';
+//     leftSleeveDesc: string = '';
+//     rightSleeveDesc: string = '';
+//     additionalDetail: string = '';
+//     frontImages: string[] = [];
+//     backImages: string[] = [];
+//   }
+
 export class MockupModel {
-    mockupId: number = 0;
-    //mockupName: string;
-    //mockupCode: string;
-    mainCategoryId: number = 0;
-    categoryId: number = 0;
-    subCategoryId: number = 0;
-    productId: number = 0;
-    productName: string = '';
-    teamName: string = '';
-    fabricTypeId: number = 0;
-    fabricType: string = '';
-    neckStyleId: number = 0;
-    neckStyle: string = '';
-    frontDescription: string = '';
-    backDescription: string = '';
-    leftSleeveDesc: string = '';
-    rightSleeveDesc: string = '';
-    additionalDetail: string = '';
-    frontImages: string[] = [];
-    backImages: string[] = [];
-  }
+  mockupId: number = 0;
+
+  teamName: string = '';
+  mainCategoryId: number = 0;
+  categoryId: number = 0;
+  subCategoryId: number = 0;
+  productId: number = 0;
+  productName: string = '';
+  fabricTypeId: number = 0;
+  fabricType: string = '';
+  neckStyleId: number = 0;
+  neckStyle: string = '';
+
+  frontDescription: string = '';
+  backDescription: string = '';
+  leftSleeveDesc: string = '';
+  rightSleeveDesc: string = '';
+  //onlyDesc: string = '';
+  additionalDetail: string = ''; // Optional if used for UI
+
+  frontImages: string[] = [];
+  backImages: string[] = [];
+  leftSleeveImages: string[] = [];
+  rightSleeveImages: string[] = [];
+
+  //active: boolean = true;
+  //status: string = '';
+  //deleted: boolean = false;
+
+  //createdBy: string = '';
+  //createdDate: Date | null = null;
+  //modifiedBy: string = '';
+  //modifiedDate: Date | null = null;
+
+  //userId: number = 0;
+
+  //mockupName: string = '';
+  //mockupCode: string = '';
+  //mockupRequestNo: number = 0;
+
+  shortPocketId: number = 0;
+  pantPocketId: number = 0;
+  wrestlingSingletId: number = 0;
+
+  attribute1:  string = '';
+  attribute2:  string = '';
+  attribute3:  string = '';
+  attribute4:  string = '';
+  attribute5:  string = '';
+  attribute6: string = '';
+  attribute7: string = '';
+  attribute8: string = '';
+  attribute9: string = '';
+  attribute10: string = '';
+  attribute11: string = '';
+  attribute12: string = '';
+  attribute13: string = '';
+  attribute14: boolean = false;
+  attribute15: boolean = false;
+
+  frontImage: string = '';
+  backImage: string = '';
+  leftSleeveImage: string = '';
+  rightSleeveImage: string = '';
+  productFrontImage: string = '';
+  productBackImage: string = '';
+
+  shoulderPanelDesc: string = '';
+  shoulderPanelImage: string = '';
+  bagStrapDesc: string = '';
+  bagStrapImage: string = '';
+  insideHoodDesc: string = '';
+  insideHoodImage: string = '';
+  outsideHoodDesc: string = '';
+  outsideHoodImage: string = '';
+  backMiddleLoopDesc: string = '';
+  backMiddleLoopImage: string = '';
+}
 
   export class MockupsListModel {
     mockupId: number;
@@ -85,6 +163,64 @@ export class MockupModel {
     additionalDetail: string = '';
     frontImages: string[] = [];
     backImages: string[] = [];
+
+    leftSleeveImages: string[] = [];
+    rightSleeveImages: string[] = [];
+
+  //active: boolean = true;
+  //status: string = '';
+  //deleted: boolean = false;
+
+  //createdBy: string = '';
+  //createdDate: Date | null = null;
+  //modifiedBy: string = '';
+  //modifiedDate: Date | null = null;
+
+  //userId: number = 0;
+
+  //mockupName: string = '';
+  //mockupCode: string = '';
+  //mockupRequestNo: number = 0;
+
+  shortPocketId: number = 0;
+  pantPocketId: number = 0;
+  wrestlingSingletId: number = 0;
+
+  attribute1:  string = '';
+  attribute2:  string = '';
+  attribute3:  string = '';
+  attribute4:  string = '';
+  attribute5:  string = '';
+  attribute6: string = '';
+  attribute7: string = '';
+  attribute8: string = '';
+  attribute9: string = '';
+  attribute10: string = '';
+  attribute11: string = '';
+  attribute12: string = '';
+  attribute13: string = '';
+
+  attribute14: boolean = false;
+  attribute15: boolean = false;
+
+  frontImage: string = '';
+  backImage: string = '';
+  leftSleeveImage: string = '';
+  rightSleeveImage: string = '';
+  productFrontImage: string = '';
+  productBackImage: string = '';
+
+  shoulderPanelDesc: string = '';
+  shoulderPanelImage: string = '';
+  bagStrapDesc: string = '';
+  bagStrapImage: string = '';
+  insideHoodDesc: string = '';
+  insideHoodImage: string = '';
+  outsideHoodDesc: string = '';
+  outsideHoodImage: string = '';
+  backMiddleLoopDesc: string = '';
+  backMiddleLoopImage: string = '';
+
     productPrice: number;
     rushPrice:number;
     productSizePrice: number;
