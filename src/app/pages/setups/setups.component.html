@@ -71,7 +71,7 @@
         <div class="col-4">
           <mat-form-field class="margin-field" appearance="fill">
             <mat-label>Select Main Category</mat-label>
-            <mat-select formControlName="mainCategoryId">
+            <mat-select formControlName="mainCategoryId" [panelClass]="isMobile ? 'mobile-select-panel' : ''">
               <mat-option *ngFor="let category of mainCategories" [value]="category.mainCategoryId">
                 {{ category.name }}
               </mat-option>
@@ -143,12 +143,14 @@
     <form [formGroup]="subCategoryForm">
       <mat-form-field class="margin-field" appearance="fill">
         <mat-label>Select Category</mat-label>
-        <mat-select formControlName="categoryId">
+        <mat-select
+          formControlName="categoryId">
           <mat-option *ngFor="let category of categoriesByMainId" [value]="category.categoryId">
             {{ category.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      
       <mat-form-field appearance="fill">
         <mat-label>Name</mat-label>
         <input matInput formControlName="name">

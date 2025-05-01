@@ -46,13 +46,18 @@ export class SetupsComponent implements OnInit {
   previewImages: { [key: string]: string | ArrayBuffer | null } = {};
   previewImages2: { [key: string]: string | ArrayBuffer | null } = {};
   previewImages3: { [key: string]: string | ArrayBuffer | null } = {};
-
+  isMobile: boolean = false;
   constructor(private fb: FormBuilder, private productSetupService: ProductSetupService
     ,private mockupService : MockupService,
        private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
+    this.isMobile = window.innerWidth <= 768;
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth <= 768;
+    });
+    
     this.getMainCategory();
     this.getCategoryByMainId(1);
     this.getMockupDesignNames();

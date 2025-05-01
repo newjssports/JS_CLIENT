@@ -13,7 +13,7 @@ import { UserRightsService } from 'src/app/services/user-rights.service';
 })
 
 export class AddEditFabricComponent implements OnInit{
-
+  isMobile: boolean = false;
    productList: ProductsListModel[] = [];
    fabricForm!: FormGroup;
    selectedCategoryIndex: number | null = null;
@@ -22,6 +22,12 @@ export class AddEditFabricComponent implements OnInit{
 
   }
   ngOnInit(): void {
+
+    this.isMobile = window.innerWidth <= 768;
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth <= 768;
+    });
+    
     this.getAllProductsList();
     this.fabricForm = this.fb.group({
       productId: [null, Validators.required],

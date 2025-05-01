@@ -116,10 +116,10 @@ export class MockupDesignComponent implements OnInit {
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 768;
-  window.addEventListener('resize', () => {
-    this.isMobile = window.innerWidth <= 768;
-  });
-  
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth <= 768;
+    });
+
     this.getUerMockupDesignActionRights();
     
     this.getMainCategory();
